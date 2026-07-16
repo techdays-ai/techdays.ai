@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>AGENTS.md — a README for agents · Patterson course · techdays.ai lab</title>
+
+<link rel="stylesheet" href="../../ds/tokens/fonts-public.css">
+<link rel="stylesheet" href="../../ds/tokens/colors.css">
+<link rel="stylesheet" href="../../ds/tokens/spacing.css">
+<link rel="stylesheet" href="../../ds/tokens/typography.css">
+<link rel="stylesheet" href="../../ds/tokens/effects.css">
+<link rel="stylesheet" href="../../ds/tokens/base.css">
+
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: var(--font-sans); color: var(--pat-ink, #1d1d20);
+         background: var(--pat-gray-50, #f6f7f8); }
+  code, pre, .mono { font-family: var(--font-mono, 'IBM Plex Mono', monospace); }
+
+  .lab-banner { background: var(--pat-warning-bg, #fbf1df); color: var(--pat-gray-700, #46464a);
+    font-size: 13px; text-align: center; padding: 8px 16px;
+    border-bottom: 1px solid var(--pat-navy-20, #ccd7e1); }
+
+  .tk { display: grid; grid-template-rows: auto 1fr; height: calc(100vh - 33px); }
+  .tk-top { background: var(--pat-navy, #003767); color: #fff; display: flex; align-items: center;
+    gap: 14px; padding: 12px 20px; }
+  .tk-top img { height: 22px; }
+  .tk-top .crumb { font-size: 12px; color: var(--pat-sky-40, #99dcf3); }
+  .tk-top .crumb b { color: #fff; }
+
+  .tk-body { display: grid; grid-template-columns: 1.1fr 1fr; min-height: 0; }
+  .lesson { overflow: auto; padding: 34px 40px; background: #fff;
+    border-right: 1px solid var(--pat-gray-200, #e2e2e4); }
+  .lesson .eyebrow { text-transform: uppercase; letter-spacing: .14em; font-size: 11px;
+    font-weight: 700; color: var(--pat-sky, #00A8E1); }
+  .lesson h1 { font-size: 27px; color: var(--pat-navy, #003767); margin: 6px 0 18px; letter-spacing: -.02em; }
+  .lesson h2 { font-size: 18px; color: var(--pat-navy, #003767); margin: 26px 0 10px; }
+  .lesson p, .lesson li { color: var(--pat-gray-700, #46464a); line-height: 1.65; }
+  .lesson ol, .lesson ul { padding-left: 22px; }
+  .lesson code { background: var(--pat-navy-10, #e5ebf0); color: var(--pat-navy, #003767);
+    padding: 1px 6px; border-radius: 5px; font-size: .88em; }
+  .callout { border-radius: 8px; padding: 14px 16px; margin: 18px 0; font-size: 14px; }
+  .callout.info { background: var(--pat-info-bg, #e7f1f9); border-left: 4px solid var(--pat-info, #147EC2); }
+  .callout.tip { background: var(--pat-success-bg, #e5f2f1); border-left: 4px solid var(--pat-success, #00817D); }
+  .callout code { background: rgba(0,55,103,.09); }
+
+  .panel { display: grid; grid-template-rows: 1fr auto; background: var(--pat-gray-50, #f6f7f8); min-height: 0; }
+  .editor { overflow: auto; padding: 0; }
+  .filetab { background: #fff; border-bottom: 1px solid var(--pat-gray-200,#e2e2e4);
+    padding: 9px 16px; font-size: 12px; color: var(--pat-gray-600,#58585B); }
+  .filetab b { color: var(--pat-navy,#003767); }
+  pre { margin: 0; padding: 18px 20px; font-size: 13px; line-height: 1.6; overflow: auto;
+    color: var(--pat-ink,#1d1d20); background: #fff; }
+  pre .ins { display: block; background: var(--pat-success-bg, #e5f2f1);
+    box-shadow: inset 3px 0 0 var(--pat-success, #00817D); }
+  .terminal { background: #012141; color: #cfe6f5; font-family: var(--font-mono,'IBM Plex Mono',monospace);
+    font-size: 12.5px; padding: 14px 18px; border-top: 1px solid rgba(255,255,255,.08); }
+  .terminal .p { color: var(--pat-sky, #00A8E1); }
+  .terminal .ok { color: #7BC24D; }
+</style>
+</head>
+<body>
+  <div class="lab-banner">
+    techdays.ai lab preview · TEC-9 import spike · one lesson of the 18-lesson Patterson agent-tooling course · noindex
+  </div>
+
+  <div class="tk">
+    <div class="tk-top">
+      <img src="../../assets/brand/patterson-logo-white.svg" alt="Patterson">
+      <span class="crumb">Agent Context&nbsp;·&nbsp;Context files&nbsp;·&nbsp;<b>AGENTS.md — a README for agents</b></span>
+    </div>
+
+    <div class="tk-body">
+      <div class="lesson">
+        <div class="eyebrow">Part 2 — Agent Context · Lesson 1</div>
+        <h1>AGENTS.md — a README for agents</h1>
+
+        <p><strong>AGENTS.md</strong> is an open convention: one plain-Markdown file at the repo root
+          that tells <em>any</em> coding agent (Claude Code, Copilot, OpenCode, Cursor…) how to work in
+          your project. There is no required schema — it wins by being predictable: agents look for it,
+          read it, and follow it.</p>
+
+        <p>A good AGENTS.md answers three questions fast:</p>
+        <ol>
+          <li><strong>What is this project?</strong> One or two sentences of orientation.</li>
+          <li><strong>How do I run it?</strong> Exact setup, dev, and test commands in fenced blocks.</li>
+          <li><strong>What are the house rules?</strong> Code style, naming, what not to touch.</li>
+        </ol>
+
+        <div class="callout info">
+          <strong>What you'll build:</strong> a complete <code>AGENTS.md</code> for the Patterson
+          design-system repo.<br>
+          <strong>How it's checked:</strong> <code>node validate.mjs</code> lints the file for the
+          sections agents rely on.
+        </div>
+
+        <h2>Your task</h2>
+        <p>Open <code>AGENTS.md</code>. The overview is written; the two sections agents need most are missing.</p>
+        <p><strong>1.</strong> Add a <code>## Setup commands</code> section with a fenced <code>sh</code>
+          block containing the real commands (<code>npm install</code>, <code>npm run dev</code>).</p>
+        <p><strong>2.</strong> Add a <code>## Code style</code> section with at least two concrete rules —
+          e.g. <em>"reference tokens, never raw hex"</em> and <em>"components live in <code>ui_kits/</code>"</em>.</p>
+
+        <div class="callout tip">
+          <strong>Tip.</strong> Keep AGENTS.md <strong>imperative and specific</strong>.
+          "Run <code>npm run check</code> before committing" beats a paragraph about testing philosophy.
+          Agents follow commands, not vibes.
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="editor">
+          <div class="filetab">📄&nbsp;<b>AGENTS.md</b></div>
+<pre># Patterson Design System
+
+Brand tokens, templates, and UI kits for Patterson Companies.
+Deliverables are static HTML + React; no bundler.
+<span class="ins">
+## Setup commands
+
+```sh
+npm install
+npm run dev
+```
+
+## Code style
+
+- Reference tokens (`var(--pat-sky)`), never raw hex in components.
+- Components live in `ui_kits/`.
+</span></pre>
+        </div>
+        <div class="terminal">
+          <div><span class="p">~/patterson $</span> node validate.mjs</div>
+          <div class="ok">✓ overview present</div>
+          <div class="ok">✓ ## Setup commands — fenced sh block found</div>
+          <div class="ok">✓ ## Code style — 2 rules found</div>
+          <div class="ok">Lesson complete.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

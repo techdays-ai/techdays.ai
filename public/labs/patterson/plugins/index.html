@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Patterson Design — Plugin Marketplace · techdays.ai lab</title>
+
+<!-- Renders entirely from the vendored Patterson design tokens. No build step,
+     no framework, no licensed font on the wire (Figtree fallback only). -->
+<link rel="stylesheet" href="../ds/tokens/fonts-public.css">
+<link rel="stylesheet" href="../ds/tokens/colors.css">
+<link rel="stylesheet" href="../ds/tokens/spacing.css">
+<link rel="stylesheet" href="../ds/tokens/typography.css">
+<link rel="stylesheet" href="../ds/tokens/effects.css">
+<link rel="stylesheet" href="../ds/tokens/base.css">
+
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--pat-gray-50, #f6f7f8); color: var(--pat-ink, #1d1d20);
+         font-family: var(--font-sans); line-height: 1.6; }
+
+  .lab-banner { background: var(--pat-warning-bg, #fbf1df); color: var(--pat-gray-700, #46464a);
+    font-size: 13px; text-align: center; padding: 8px 16px;
+    border-bottom: 1px solid var(--pat-navy-20, #ccd7e1); }
+
+  header.site { background: var(--pat-navy, #003767); color: #fff; padding: 22px 28px;
+    display: flex; align-items: center; gap: 16px; }
+  header.site img { height: 30px; }
+  header.site .eyebrow { text-transform: uppercase; letter-spacing: .14em; font-size: 11px;
+    color: var(--pat-sky, #00A8E1); font-weight: 700; }
+  header.site h1 { margin: 2px 0 0; font-size: 20px; font-weight: 700; letter-spacing: -.01em; }
+
+  main { max-width: 1120px; margin: 0 auto; padding: 40px 28px 64px; }
+  .intro { max-width: 720px; }
+  .intro h2 { font-size: 30px; line-height: 1.15; margin: 0 0 10px; color: var(--pat-navy, #003767);
+    letter-spacing: -.02em; }
+  .intro p { color: var(--pat-gray-600, #58585B); margin: 0 0 6px; }
+  .intro .count { display: inline-block; margin-top: 14px; background: var(--pat-sky-10, #e5f6fc);
+    color: var(--pat-blue, #147EC2); font-weight: 700; font-size: 13px; padding: 5px 12px;
+    border-radius: 999px; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 18px; margin-top: 30px; }
+  .card { background: #fff; border: 1px solid var(--pat-gray-200, #e2e2e4); border-radius: 10px;
+    padding: 20px 20px 18px; box-shadow: 0 1px 2px rgba(0,55,103,.06);
+    display: flex; flex-direction: column; transition: box-shadow .15s, border-color .15s; }
+  .card:hover { box-shadow: 0 8px 24px rgba(0,55,103,.12); border-color: var(--pat-sky-40, #99dcf3); }
+  .card .cat { text-transform: uppercase; letter-spacing: .12em; font-size: 10px; font-weight: 700;
+    color: var(--pat-sky, #00A8E1); }
+  .card h3 { margin: 6px 0 8px; font-size: 17px; color: var(--pat-navy, #003767);
+    font-family: var(--font-mono, 'IBM Plex Mono', monospace); }
+  .card p { margin: 0 0 16px; font-size: 14px; color: var(--pat-gray-600, #58585B); flex: 1; }
+  .card .foot { display: flex; align-items: center; justify-content: space-between; }
+  .card .ver { font-size: 12px; color: var(--pat-gray-500, #7c7c80); }
+  .card .install { font-family: var(--font-mono, 'IBM Plex Mono', monospace); font-size: 11px;
+    background: var(--pat-navy-10, #e5ebf0); color: var(--pat-navy, #003767);
+    padding: 4px 9px; border-radius: 6px; }
+
+  footer { max-width: 1120px; margin: 0 auto; padding: 24px 28px 48px;
+    color: var(--pat-gray-500, #7c7c80); font-size: 12px; border-top: 1px solid var(--pat-gray-200,#e2e2e4); }
+  footer a { color: var(--pat-blue, #147EC2); }
+</style>
+</head>
+<body>
+  <div class="lab-banner">
+    techdays.ai lab preview · TEC-9 import spike · synthetic content, not linked from the live site · noindex
+  </div>
+
+  <header class="site">
+    <img src="../assets/brand/patterson-logo-white.svg" alt="Patterson">
+    <div>
+      <div class="eyebrow">Design System · Claude Code Marketplace</div>
+      <h1>Patterson Design — Plugin Marketplace</h1>
+    </div>
+  </header>
+
+  <main>
+    <section class="intro">
+      <h2>Nine installable plugins, one brand.</h2>
+      <p>Brand core, deck / page / app / docs templates, and website / storefront / tutorial UI kits —
+        each individually installable as a Claude Code plugin, each shipping a skill, slash commands,
+        a subagent, and a self-contained design-token snapshot.</p>
+      <p>The pedagogy generalizes: <code>AGENTS.md</code> alongside <code>CLAUDE.md</code>, MCP as a
+        cross-vendor standard, "here's the equivalent in Copilot / OpenCode" callouts.</p>
+      <span class="count">9 plugins · marketplace <code>patterson-design</code> v1.0.0</span>
+    </section>
+
+    <section class="grid" id="grid"></section>
+  </main>
+
+  <footer>
+    Rendered from vendored Patterson design tokens (colors · type · spacing · effects).
+    Brand font <strong>proxima-nova</strong> (Adobe Fonts, licensed) is intentionally not served here —
+    the free <strong>Figtree</strong> fallback is used on public surfaces.
+    Source: <a href="https://github.com/danielbodnar/patterson-design-plugins">patterson-design-plugins</a>.
+  </footer>
+
+  <script>
+    // Catalog mirrors .claude-plugin/marketplace.json (embedded so the page is
+    // fully static — this is the "content pipeline" shape TEC-14 will formalize).
+    const plugins = [
+      {name:"patterson-brand", category:"design-system", version:"1.0.0",
+       description:"Design-system core: brand tokens, fonts, logos, brand imagery, React component library, guideline specimens, and framework adapters (Tailwind v3/v4, UnoCSS, Theme UI, shadcn/ui). Foundation plugin for all Patterson work."},
+      {name:"patterson-deck", category:"templates", version:"1.0.0",
+       description:"16:9 presentation deck template: cover, section divider, stats, comparison, quote, capabilities table, full-bleed photo band, closing slides. Static HTML — print-to-PDF ready."},
+      {name:"patterson-executive-deck", category:"templates", version:"1.0.0",
+       description:"Executive-briefing deck: editorial navy cover, key takeaways, breakdown matrix, requirements, build outputs, benefits — denser and more formal than the standard deck."},
+      {name:"patterson-corporate-page", category:"templates", version:"1.0.0",
+       description:"Corporate web page shell: sticky nav with logo, navy hero, content band, footer — a React starting point for any on-brand marketing or informational page."},
+      {name:"patterson-file-manager", category:"templates", version:"1.0.0",
+       description:"\"Skill Studio\" file-manager application shell: navy top bar, sidebar tree, content grid — a React prototype template for internal tools and dashboards."},
+      {name:"patterson-docs", category:"templates", version:"1.0.0",
+       description:"Documentation-site package: a VitePress + Diátaxis styled docs UI kit (sidebar nav, content pages, collections) and a browser-openable docs page template."},
+      {name:"patterson-tutorialkit", category:"templates", version:"1.2.0",
+       description:"Theme for TutorialKit (Astro interactive tutorials): a runnable starter with the canonical theme.css, brand logos, a 5-part / 18-lesson agent-tooling curriculum, and a static preview page."},
+      {name:"patterson-corporate-website", category:"ui-kits", version:"1.0.0",
+       description:"Corporate-website UI kit: interactive recreation of the corporate home — hero, We-Are-Patterson stats, capability tabs, What-We-Do, newsroom, header, footer as separate React screens."},
+      {name:"patterson-storefront", category:"ui-kits", version:"1.0.0",
+       description:"E-commerce storefront UI kit, switchable between Dental and Veterinary brands: utility bar, search, category nav + flyouts, hero, featured products, manufacturers, rewards, footer."}
+    ];
+    const grid = document.getElementById("grid");
+    grid.innerHTML = plugins.map(p => `
+      <article class="card">
+        <span class="cat">${p.category}</span>
+        <h3>${p.name}</h3>
+        <p>${p.description}</p>
+        <div class="foot">
+          <span class="install">/plugin install ${p.name}</span>
+          <span class="ver">v${p.version}</span>
+        </div>
+      </article>`).join("");
+  </script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Patterson import spike · techdays.ai lab</title>
+<link rel="stylesheet" href="ds/tokens/fonts-public.css">
+<link rel="stylesheet" href="ds/tokens/colors.css">
+<link rel="stylesheet" href="ds/tokens/base.css">
+<style>
+  body { margin: 0; font-family: var(--font-sans); background: var(--pat-gray-50,#f6f7f8);
+    color: var(--pat-ink,#1d1d20); }
+  header { background: var(--pat-navy,#003767); color:#fff; padding: 22px 28px; display:flex; gap:14px; align-items:center; }
+  header img { height: 26px; }
+  main { max-width: 760px; margin: 0 auto; padding: 40px 28px; }
+  h1 { color: var(--pat-navy,#003767); letter-spacing: -.02em; }
+  a.card { display:block; text-decoration:none; background:#fff; border:1px solid var(--pat-gray-200,#e2e2e4);
+    border-radius:10px; padding:18px 20px; margin:14px 0; color:inherit; box-shadow:0 1px 2px rgba(0,55,103,.06); }
+  a.card:hover { border-color: var(--pat-sky-40,#99dcf3); box-shadow:0 8px 24px rgba(0,55,103,.12); }
+  a.card b { color: var(--pat-blue,#147EC2); }
+  p.note { color: var(--pat-gray-600,#58585B); font-size:14px; }
+</style>
+</head>
+<body>
+  <header><img src="assets/brand/patterson-logo-white.svg" alt="Patterson"><strong>techdays.ai lab · Patterson import spike (TEC-9)</strong></header>
+  <main>
+    <h1>Two prototypes, rendered from the imported design system</h1>
+    <p class="note">Static HTML + vendored Patterson tokens. No build step. Figtree fallback font only —
+      the licensed proxima-nova woff2 subsets are intentionally not served publicly. noindex.</p>
+    <a class="card" href="plugins/"><b>Plugin marketplace →</b><br>All 9 Patterson Claude Code plugins as an on-brand gallery.</a>
+    <a class="card" href="course/agents-md/"><b>Course lesson →</b><br>"AGENTS.md — a README for agents", one of the 18 lessons, in a TutorialKit-style shell.</a>
+  </main>
+</body>
+</html>

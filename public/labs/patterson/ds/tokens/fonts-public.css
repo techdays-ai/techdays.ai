@@ -1,0 +1,16 @@
+/* ============================================================
+   Patterson tokens — PUBLIC-SAFE font layer (techdays.ai)
+   ------------------------------------------------------------
+   The source design system self-hosts proxima-nova (Adobe Fonts /
+   Typekit kit rul6mjk) woff2 subsets. Those binaries are a LICENSED
+   commercial webfont, marked proprietary and "for use within this
+   brand's properties." They are intentionally NOT deployed to the
+   public techdays.ai Worker — self-hosting/redistributing Typekit
+   files publicly is outside that license (see TEC-9 go/no-go note).
+
+   The design system already declares Figtree (SIL OFL, free to
+   self-host / serve) as the closest free fallback, and every surface
+   is tokenized through --font-sans. Loading Figtree here makes the
+   pages render on-brand with no licensed font on the wire.
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
