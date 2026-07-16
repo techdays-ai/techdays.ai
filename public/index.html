@@ -3,71 +3,131 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>techdays.ai — AI fluency is a lived skill</title>
-<meta name="description" content="Immersive learning environments where every idea is executable. Runnable playbooks, live code, an always-on tutor, and prompt templates your team fires in place. From first prompt to production agent.">
-<meta property="og:title" content="techdays.ai — AI fluency is a lived skill">
-<meta property="og:description" content="Immersive, executable AI-fluency learning for enterprises. From first prompt to production agent.">
+<title>techdays.ai — hands-on AI fluency for enterprises</title>
+<meta name="description" content="Interactive learning environments where every idea is executable: runnable playbooks, live code, an always-on tutor, and prompt templates. Guides, docs, and references for coding agents — from first prompt to production agent.">
+<meta property="og:title" content="techdays.ai — hands-on AI fluency for enterprises">
+<meta property="og:description" content="Interactive learning for enterprises: runnable playbooks, live code, and references for coding agents. From first prompt to production agent.">
 <meta property="og:url" content="https://techdays.ai">
 <meta property="og:type" content="website">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%230C0E15'/><path d='M9 11h14M16 11v11' stroke='%23F2A93B' stroke-width='3' stroke-linecap='round'/></svg>">
+<meta name="theme-color" content="#003767">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23003767'/><path d='M9 11h14M16 11v11' stroke='%2300A8E1' stroke-width='3' stroke-linecap='round'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <style>
+/* ============================================================
+   Patterson Companies design tokens — pasted verbatim from
+   patterson-design-plugins/plugins/patterson-brand/ds/tokens/*.css
+   (colors, typography, spacing, effects). Canonical brand hexes;
+   do not re-derive or replace them.
+   ============================================================ */
 :root{
-  --ink:#0C0E15;
-  --panel:#131725;
-  --panel-2:#0F131F;
-  --line:rgba(234,230,218,.13);
-  --chalk:#EAE6DA;
-  --muted:#9BA1B0;
-  --iris:#8E96FF;
-  --amber:#F2A93B;
-  --green:#7ED495;
-  --display:"Bricolage Grotesque",system-ui,sans-serif;
-  --body:"Instrument Sans",system-ui,sans-serif;
-  --mono:"IBM Plex Mono",ui-monospace,monospace;
+  /* --- Brand: Primary --- */
+  --pat-navy:#003767; --pat-sky:#00A8E1; --pat-gray:#58585B; --pat-white:#FFFFFF;
+  /* --- Brand: Secondary --- */
+  --pat-blue:#147EC2; --pat-blue-light:#6DCFF6; --pat-gray-light:#ECECEC;
+  /* --- Brand: Tertiary --- */
+  --pat-green:#7BC24D; --pat-teal:#00817D; --pat-purple:#522E91;
+  /* --- Navy tints --- */
+  --pat-navy-80:#335f85; --pat-navy-60:#6687a4; --pat-navy-40:#99afc2; --pat-navy-20:#ccd7e1; --pat-navy-10:#e5ebf0;
+  /* --- Sky tints --- */
+  --pat-sky-80:#33b9e7; --pat-sky-60:#66caed; --pat-sky-40:#99dcf3; --pat-sky-20:#ccedf9; --pat-sky-10:#e5f6fc;
+  /* --- Neutral ramp --- */
+  --pat-ink:#1d1d20; --pat-gray-700:#46464a; --pat-gray-600:#58585B; --pat-gray-500:#7c7c80;
+  --pat-gray-400:#a3a3a7; --pat-gray-300:#c9c9cc; --pat-gray-200:#e2e2e4; --pat-gray-100:#ECECEC; --pat-gray-50:#f6f7f8;
+  /* --- Semantic status --- */
+  --pat-success:#00817D; --pat-success-bg:#e5f2f1;
+  --pat-info:#147EC2; --pat-info-bg:#e7f1f9;
+  --pat-warning:#d98a00; --pat-warning-bg:#fbf1df;
+  --pat-danger:#c0392b; --pat-danger-bg:#f8eae8;
+
+  /* --- Semantic aliases (reference these in product UI) --- */
+  --text-strong:var(--pat-navy); --text-heading:var(--pat-ink); --text-body:var(--pat-gray-600);
+  --text-muted:var(--pat-gray-500); --text-inverse:var(--pat-white);
+  --text-link:var(--pat-blue); --text-link-hover:var(--pat-navy); --text-on-brand:var(--pat-white);
+  --surface-page:var(--pat-white); --surface-subtle:var(--pat-gray-50); --surface-muted:var(--pat-gray-100);
+  --surface-card:var(--pat-white); --surface-brand:var(--pat-navy); --surface-brand-alt:var(--pat-sky); --surface-inverse:var(--pat-navy);
+  --border-subtle:var(--pat-gray-200); --border-default:var(--pat-gray-300); --border-strong:var(--pat-gray-400); --border-brand:var(--pat-sky);
+  --accent:var(--pat-sky); --accent-strong:var(--pat-navy); --focus-ring:var(--pat-sky);
+
+  /* --- Type --- */
+  --font-sans:'proxima-nova','Figtree',system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  --font-display:var(--font-sans);
+  --font-mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+  --fw-light:300; --fw-regular:400; --fw-medium:500; --fw-semibold:600; --fw-bold:700; --fw-extra:800; --fw-black:900;
+  --fs-display:clamp(2.75rem,1.6rem + 4.2vw,4.5rem);
+  --fs-h1:clamp(2.25rem,1.5rem + 2.6vw,3.25rem);
+  --fs-h2:clamp(1.75rem,1.3rem + 1.6vw,2.5rem);
+  --fs-h3:clamp(1.375rem,1.15rem + 0.8vw,1.75rem);
+  --fs-h4:1.25rem; --fs-h5:1.0625rem; --fs-lead:1.25rem; --fs-body:1rem; --fs-sm:0.875rem; --fs-xs:0.75rem;
+  --fs-stat:clamp(2.5rem,1.4rem + 4vw,4rem);
+  --lh-tight:1.05; --lh-snug:1.2; --lh-heading:1.15; --lh-body:1.6; --lh-relaxed:1.75;
+  --ls-tight:-0.02em; --ls-snug:-0.01em; --ls-normal:0; --ls-wide:0.04em; --ls-caps:0.08em;
+
+  /* --- Spacing / radii / layout --- */
+  --space-1:0.25rem; --space-2:0.5rem; --space-3:0.75rem; --space-4:1rem; --space-5:1.5rem; --space-6:2rem;
+  --space-7:2.5rem; --space-8:3rem; --space-9:4rem; --space-10:5rem; --space-11:6rem; --space-12:8rem;
+  --radius-xs:2px; --radius-sm:4px; --radius-md:6px; --radius-lg:10px; --radius-xl:16px; --radius-2xl:24px; --radius-pill:999px;
+  --container-max:1240px; --container-text:720px; --gutter:clamp(1.25rem,0.5rem + 3vw,4rem);
+  --control-h-sm:34px; --control-h-md:44px; --control-h-lg:54px;
+  --border-w:1px; --border-w-thick:2px;
+
+  /* --- Effects --- */
+  --shadow-xs:0 1px 2px rgba(0,55,103,.06);
+  --shadow-sm:0 1px 3px rgba(0,55,103,.08),0 1px 2px rgba(0,55,103,.06);
+  --shadow-md:0 4px 12px rgba(0,55,103,.10),0 2px 4px rgba(0,55,103,.06);
+  --shadow-lg:0 12px 28px rgba(0,55,103,.12),0 4px 10px rgba(0,55,103,.07);
+  --shadow-xl:0 24px 48px rgba(0,55,103,.16);
+  --ring-focus:0 0 0 3px rgba(0,168,225,.45);
+  --ease-standard:cubic-bezier(.2,0,.2,1); --ease-out:cubic-bezier(.16,1,.3,1);
+  --dur-fast:120ms; --dur-base:200ms; --dur-slow:320ms;
+  --overlay-scrim:rgba(0,55,103,.55); --blur-panel:saturate(140%) blur(12px);
 }
+
+/* ---------- base ---------- */
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{
-  background:var(--ink);
-  color:var(--chalk);
-  font-family:var(--body);
+  background:var(--surface-page);
+  color:var(--text-body);
+  font-family:var(--font-sans);
   font-size:17px;
-  line-height:1.6;
+  line-height:var(--lh-body);
   -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
 }
-::selection{background:var(--amber);color:var(--ink)}
+::selection{background:var(--pat-sky-20);color:var(--pat-navy)}
 a{color:inherit}
-.wrap{max-width:1180px;margin:0 auto;padding:0 28px}
-.mono{font-family:var(--mono)}
+.wrap{max-width:var(--container-max);margin:0 auto;padding:0 var(--gutter)}
+.mono{font-family:var(--font-mono)}
 
 /* ---------- top bar ---------- */
 header{
   position:sticky;top:0;z-index:50;
-  background:color-mix(in srgb, var(--ink) 88%, transparent);
-  backdrop-filter:blur(10px);
-  border-bottom:1px solid var(--line);
+  background:color-mix(in srgb, var(--surface-page) 86%, transparent);
+  backdrop-filter:var(--blur-panel);
+  border-bottom:1px solid var(--border-subtle);
 }
 .bar{display:flex;align-items:center;justify-content:space-between;height:64px}
-.wordmark{font-family:var(--mono);font-weight:500;font-size:16px;text-decoration:none;letter-spacing:-.02em}
-.wordmark .tld{color:var(--amber)}
-.caret{display:inline-block;width:9px;height:18px;background:var(--amber);vertical-align:-3px;margin-left:6px;animation:blink 1.15s steps(1) infinite}
+.wordmark{font-family:var(--font-mono);font-weight:600;font-size:16px;text-decoration:none;letter-spacing:-.02em;color:var(--pat-navy)}
+.wordmark .tld{color:var(--pat-sky)}
+.caret{display:inline-block;width:9px;height:18px;background:var(--pat-sky);vertical-align:-3px;margin-left:6px;animation:blink 1.15s steps(1) infinite}
 @keyframes blink{50%{opacity:0}}
 nav{display:flex;gap:28px;align-items:center}
-nav a{font-size:15px;color:var(--muted);text-decoration:none;transition:color .15s}
-nav a:hover,nav a:focus-visible{color:var(--chalk)}
+nav a{font-size:15px;color:var(--text-muted);text-decoration:none;font-weight:var(--fw-medium);transition:color var(--dur-fast) var(--ease-standard)}
+nav a:hover,nav a:focus-visible{color:var(--pat-sky)}
 .btn{
-  display:inline-block;padding:11px 22px;border-radius:6px;
-  font-family:var(--mono);font-size:14px;font-weight:500;text-decoration:none;
-  border:1px solid var(--amber);color:var(--amber);background:transparent;
-  transition:background .15s,color .15s;cursor:pointer;
+  display:inline-block;padding:11px 24px;border-radius:var(--radius-pill);
+  font-family:var(--font-sans);font-size:15px;font-weight:var(--fw-semibold);text-decoration:none;
+  border:2px solid var(--pat-navy);color:var(--pat-navy);background:transparent;
+  transition:background var(--dur-fast),color var(--dur-fast),border-color var(--dur-fast);cursor:pointer;
 }
-.btn:hover,.btn:focus-visible{background:var(--amber);color:var(--ink)}
-.btn.solid{background:var(--amber);color:var(--ink)}
-.btn.solid:hover,.btn.solid:focus-visible{background:#ffc069;border-color:#ffc069}
-:focus-visible{outline:2px solid var(--iris);outline-offset:3px}
+.btn:hover,.btn:focus-visible{background:var(--pat-navy);color:var(--pat-white)}
+.btn.solid{background:var(--pat-navy);color:var(--pat-white)}
+.btn.solid:hover,.btn.solid:focus-visible{background:var(--pat-sky);border-color:var(--pat-sky)}
+.btn.on-dark{background:var(--pat-white);border-color:var(--pat-white);color:var(--pat-navy)}
+.btn.on-dark:hover,.btn.on-dark:focus-visible{background:var(--pat-sky);border-color:var(--pat-sky);color:var(--pat-white)}
+:focus-visible{outline:none;box-shadow:var(--ring-focus);border-radius:var(--radius-sm)}
 @media(max-width:820px){nav a.navlink{display:none}}
 
 /* ---------- hero ---------- */
@@ -75,146 +135,146 @@ nav a:hover,nav a:focus-visible{color:var(--chalk)}
 .hero::before{
   content:"";position:absolute;inset:0;pointer-events:none;
   background:
-    radial-gradient(700px 420px at 82% 8%, rgba(142,150,255,.10), transparent 65%),
-    radial-gradient(520px 360px at 8% 92%, rgba(242,169,59,.06), transparent 65%);
+    radial-gradient(720px 420px at 82% 6%, rgba(0,168,225,.10), transparent 65%),
+    radial-gradient(520px 360px at 6% 96%, rgba(0,55,103,.05), transparent 65%);
 }
 .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:64px;align-items:center;position:relative}
 @media(max-width:960px){.hero-grid{grid-template-columns:1fr;gap:44px}}
-.eyebrow{font-family:var(--mono);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--iris);margin-bottom:22px}
+.eyebrow{font-family:var(--font-mono);font-size:13px;letter-spacing:var(--ls-caps);text-transform:uppercase;color:var(--pat-sky);margin-bottom:22px}
 h1{
-  font-family:var(--display);
-  font-size:clamp(40px,5.4vw,68px);
-  font-weight:640;
-  line-height:1.02;
-  letter-spacing:-.025em;
+  font-family:var(--font-display);
+  font-size:clamp(40px,5.2vw,64px);
+  font-weight:var(--fw-bold);
+  line-height:var(--lh-tight);
+  letter-spacing:var(--ls-tight);
+  color:var(--text-heading);
 }
-h1 em{font-style:normal;color:var(--amber)}
-h1 .strike{position:relative;white-space:nowrap;color:var(--muted)}
-h1 .strike::after{
-  content:"";position:absolute;left:-2%;right:-2%;top:54%;height:.09em;
-  background:var(--amber);transform:rotate(-2deg);border-radius:2px;
-}
-.lede{margin-top:26px;font-size:19px;color:var(--muted);max-width:34em}
-.lede strong{color:var(--chalk);font-weight:500}
+h1 em{font-style:normal;color:var(--pat-sky)}
+.lede{margin-top:26px;font-size:var(--fs-lead);color:var(--text-body);max-width:34em}
+.lede strong{color:var(--pat-navy);font-weight:var(--fw-semibold)}
 .hero-ctas{margin-top:36px;display:flex;gap:16px;flex-wrap:wrap}
 
-/* ---------- playbook card (signature) ---------- */
+/* ---------- playbook card (executable specimen) ---------- */
 .playbook{
-  background:var(--panel);
-  border:1px solid var(--line);
-  border-radius:10px;
-  box-shadow:0 30px 80px rgba(0,0,0,.45);
-  font-family:var(--mono);
+  background:var(--surface-card);
+  border:1px solid var(--border-subtle);
+  border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-lg);
+  font-family:var(--font-mono);
   font-size:14px;
+  overflow:hidden;
 }
 .pb-head{
   display:flex;align-items:center;justify-content:space-between;
-  padding:14px 20px;border-bottom:1px solid var(--line);
-  font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);
+  padding:14px 20px;border-bottom:1px solid var(--border-subtle);
+  background:var(--surface-subtle);
+  font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);
 }
 .pb-status{display:flex;align-items:center;gap:8px}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green)}
-.pb-body{padding:22px 20px;line-height:1.75}
-.pb-comment{color:var(--muted)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--pat-teal);box-shadow:0 0 0 3px var(--pat-success-bg)}
+.pb-body{padding:22px 20px;line-height:1.75;color:var(--pat-gray-700)}
+.pb-comment{color:var(--text-muted)}
 .chip{
-  display:inline-block;padding:1px 9px;border-radius:5px;cursor:pointer;
-  background:rgba(142,150,255,.14);border:1px dashed rgba(142,150,255,.55);
-  color:var(--iris);user-select:none;transition:background .12s;
+  display:inline-block;padding:1px 9px;border-radius:var(--radius-sm);cursor:pointer;
+  background:var(--pat-sky-10);border:1px dashed var(--pat-sky-60);
+  color:var(--pat-blue);user-select:none;transition:background var(--dur-fast);
   font:inherit;
 }
-.chip:hover,.chip:focus-visible{background:rgba(142,150,255,.28)}
+.chip:hover,.chip:focus-visible{background:var(--pat-sky-20)}
 .pb-run{
   display:flex;align-items:center;gap:14px;
-  padding:14px 20px;border-top:1px solid var(--line);
+  padding:14px 20px;border-top:1px solid var(--border-subtle);
 }
 .run-btn{
-  font-family:var(--mono);font-size:13px;font-weight:500;
-  padding:9px 18px;border-radius:6px;border:none;cursor:pointer;
-  background:var(--amber);color:var(--ink);transition:background .15s;
+  font-family:var(--font-sans);font-size:14px;font-weight:var(--fw-semibold);
+  padding:9px 20px;border-radius:var(--radius-pill);border:2px solid var(--pat-navy);cursor:pointer;
+  background:var(--pat-navy);color:var(--pat-white);transition:background var(--dur-fast),border-color var(--dur-fast);
 }
-.run-btn:hover,.run-btn:focus-visible{background:#ffc069}
+.run-btn:hover,.run-btn:focus-visible{background:var(--pat-sky);border-color:var(--pat-sky)}
 .run-btn[disabled]{opacity:.55;cursor:default}
-.run-hint{font-size:12.5px;color:var(--muted)}
+.run-hint{font-size:12.5px;color:var(--text-muted)}
 .pb-out{
-  display:none;padding:18px 20px 22px;border-top:1px solid var(--line);
-  background:var(--panel-2);border-radius:0 0 10px 10px;
-  white-space:pre-wrap;line-height:1.7;font-size:13.5px;min-height:120px;
+  display:none;padding:18px 20px 22px;border-top:1px solid var(--border-subtle);
+  background:var(--surface-subtle);
+  white-space:pre-wrap;line-height:1.7;font-size:13.5px;min-height:120px;color:var(--pat-gray-700);
 }
 .pb-out.live{display:block}
-.pb-out .sys{color:var(--muted)}
-.pb-out .ok{color:var(--green)}
-.pb-out .hl{color:var(--amber)}
+.pb-out .sys{color:var(--text-muted)}
+.pb-out .ok{color:var(--pat-teal)}
+.pb-out .hl{color:var(--pat-navy);font-weight:var(--fw-medium)}
 
 /* ---------- ticker ---------- */
-.ticker{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;padding:15px 0;background:var(--panel-2)}
-.ticker-track{display:flex;gap:52px;white-space:nowrap;font-family:var(--mono);font-size:13.5px;color:var(--muted);animation:scroll 46s linear infinite;width:max-content}
-.ticker-track span b{color:var(--amber);font-weight:400;margin-right:52px}
+.ticker{border-top:1px solid var(--border-subtle);border-bottom:1px solid var(--border-subtle);overflow:hidden;padding:15px 0;background:var(--surface-subtle)}
+.ticker-track{display:flex;gap:52px;white-space:nowrap;font-family:var(--font-mono);font-size:13.5px;color:var(--text-muted);animation:scroll 46s linear infinite;width:max-content}
+.ticker-track span b{color:var(--pat-sky);font-weight:400;margin-right:52px}
 @keyframes scroll{to{transform:translateX(-50%)}}
 
 /* ---------- sections ---------- */
 section{padding:96px 0}
-.sec-label{font-family:var(--mono);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--iris);margin-bottom:18px}
-h2{font-family:var(--display);font-size:clamp(30px,3.6vw,46px);font-weight:600;letter-spacing:-.02em;line-height:1.08;max-width:20em}
-.sec-intro{margin-top:18px;color:var(--muted);max-width:38em}
+.sec-label{font-family:var(--font-mono);font-size:13px;letter-spacing:var(--ls-caps);text-transform:uppercase;color:var(--pat-sky);margin-bottom:18px}
+h2{font-family:var(--font-display);font-size:var(--fs-h2);font-weight:var(--fw-bold);letter-spacing:var(--ls-snug);line-height:var(--lh-heading);color:var(--text-heading);max-width:20em}
+.sec-intro{margin-top:18px;color:var(--text-body);max-width:38em}
 
 /* artifacts */
 .artifacts{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:56px}
 @media(max-width:960px){.artifacts{grid-template-columns:1fr}}
 .artifact{
-  background:var(--panel);border:1px solid var(--line);border-radius:10px;
-  padding:26px;display:flex;flex-direction:column;gap:16px;
-  transition:transform .18s ease,border-color .18s ease;
+  background:var(--surface-card);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);
+  padding:26px;display:flex;flex-direction:column;gap:16px;box-shadow:var(--shadow-sm);
+  transition:transform var(--dur-base) var(--ease-out),box-shadow var(--dur-base),border-color var(--dur-base);
 }
-.artifact:hover{transform:translateY(-4px);border-color:rgba(242,169,59,.45)}
-.artifact h3{font-family:var(--display);font-size:21px;font-weight:600}
-.artifact p{font-size:15.5px;color:var(--muted)}
+.artifact:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:var(--border-brand)}
+.artifact h3{font-family:var(--font-display);font-size:21px;font-weight:var(--fw-bold);color:var(--text-heading)}
+.artifact p{font-size:15.5px;color:var(--text-body)}
 .specimen{
-  font-family:var(--mono);font-size:12.5px;line-height:1.7;
-  background:var(--panel-2);border:1px solid var(--line);border-radius:7px;
-  padding:14px 16px;color:var(--muted);margin-top:auto;
+  font-family:var(--font-mono);font-size:12.5px;line-height:1.7;
+  background:var(--surface-subtle);border:1px solid var(--border-subtle);border-radius:var(--radius-md);
+  padding:14px 16px;color:var(--text-muted);margin-top:auto;
 }
-.specimen .k{color:var(--iris)}
-.specimen .v{color:var(--amber)}
-.specimen .g{color:var(--green)}
+.specimen .k{color:var(--pat-blue)}
+.specimen .v{color:var(--pat-navy)}
+.specimen .g{color:var(--pat-teal)}
 
-/* arc — a real sequence, numbers carry meaning */
-.arc{border-top:1px solid var(--line)}
-.arc-rows{margin-top:56px;border-top:1px solid var(--line)}
+/* arc — the curriculum sequence */
+.arc{border-top:1px solid var(--border-subtle)}
+.arc-rows{margin-top:56px;border-top:1px solid var(--border-subtle)}
 .arc-row{
   display:grid;grid-template-columns:120px 1fr 1.2fr;gap:32px;
-  padding:34px 0;border-bottom:1px solid var(--line);align-items:baseline;
+  padding:34px 0;border-bottom:1px solid var(--border-subtle);align-items:baseline;
 }
 @media(max-width:820px){.arc-row{grid-template-columns:64px 1fr;gap:18px}.arc-row .arc-can{grid-column:2}}
-.arc-n{font-family:var(--mono);font-size:14px;color:var(--amber)}
-.arc-row h3{font-family:var(--display);font-size:24px;font-weight:600}
-.arc-row .arc-who{display:block;margin-top:6px;font-size:14.5px;color:var(--muted)}
-.arc-can{font-size:15.5px;color:var(--muted)}
-.arc-can b{color:var(--chalk);font-weight:500;display:block;margin-bottom:4px;font-family:var(--mono);font-size:12.5px;letter-spacing:.1em;text-transform:uppercase}
-.arc-try{display:inline-block;margin-top:10px;font-family:var(--mono);font-size:13px;color:var(--amber);text-decoration:none;border-bottom:1px dashed rgba(242,169,59,.55)}
-.arc-try:hover,.arc-try:focus-visible{color:#ffc069}
+.arc-n{font-family:var(--font-mono);font-size:14px;color:var(--pat-sky)}
+.arc-row h3{font-family:var(--font-display);font-size:24px;font-weight:var(--fw-bold);color:var(--text-heading)}
+.arc-row .arc-who{display:block;margin-top:6px;font-size:14.5px;color:var(--text-muted)}
+.arc-can{font-size:15.5px;color:var(--text-body)}
+.arc-can b{color:var(--pat-navy);font-weight:var(--fw-semibold);display:block;margin-bottom:4px;font-family:var(--font-mono);font-size:12.5px;letter-spacing:.1em;text-transform:uppercase}
+.arc-try{display:inline-block;margin-top:10px;font-family:var(--font-mono);font-size:13px;color:var(--pat-blue);text-decoration:none;border-bottom:1px dashed var(--pat-sky-60)}
+.arc-try:hover,.arc-try:focus-visible{color:var(--pat-navy)}
 
-/* measurement */
-.measure{background:var(--panel-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+/* what's included */
+.measure{background:var(--surface-subtle);border-top:1px solid var(--border-subtle);border-bottom:1px solid var(--border-subtle)}
 .measure-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
 @media(max-width:900px){.measure-grid{grid-template-columns:1fr}}
-.proof{list-style:none;display:flex;flex-direction:column;gap:0;border-top:1px solid var(--line)}
+.proof{list-style:none;display:flex;flex-direction:column;gap:0;border-top:1px solid var(--border-subtle)}
 .proof li{
-  display:flex;gap:18px;padding:20px 4px;border-bottom:1px solid var(--line);
+  display:flex;gap:18px;padding:20px 4px;border-bottom:1px solid var(--border-subtle);
   font-size:16px;align-items:baseline;
 }
-.proof .tick{font-family:var(--mono);color:var(--green);flex-shrink:0}
-.proof span:last-child em{font-style:normal;color:var(--amber)}
+.proof .tick{font-family:var(--font-mono);color:var(--pat-teal);flex-shrink:0}
+.proof span:last-child em{font-style:normal;color:var(--pat-navy);font-weight:var(--fw-semibold)}
 
-/* cta */
-.cta{text-align:center;padding:120px 0}
-.cta h2{margin:0 auto;max-width:16em}
-.cta p{margin:22px auto 0;color:var(--muted);max-width:32em}
-.cta .hero-ctas{justify-content:center}
+/* closing — navy brand panel */
+.cta{text-align:center;padding:104px 0;background:var(--surface-brand);border-top:1px solid var(--pat-navy-80)}
+.cta h2{margin:0 auto;max-width:16em;color:var(--pat-white)}
+.cta .sec-label{color:var(--pat-sky-40)}
+.cta p{margin:22px auto 0;color:var(--pat-navy-20);max-width:34em}
+.cta .hero-ctas{justify-content:center;margin-top:36px}
 
-footer{border-top:1px solid var(--line);padding:36px 0;font-family:var(--mono);font-size:13px;color:var(--muted)}
+footer{border-top:1px solid var(--border-subtle);padding:36px 0;font-family:var(--font-mono);font-size:13px;color:var(--text-muted)}
 .foot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
-footer a{color:var(--muted);text-decoration:none}
-footer a:hover{color:var(--chalk)}
+footer a{color:var(--text-muted);text-decoration:none}
+footer a:hover{color:var(--pat-sky)}
+.foot .tld{color:var(--pat-sky)}
 
 @media (prefers-reduced-motion: reduce){
   .caret{animation:none}
@@ -230,11 +290,11 @@ footer a:hover{color:var(--chalk)}
   <div class="wrap bar">
     <a class="wordmark" href="/">techdays<span class="tld">.ai</span><span class="caret" aria-hidden="true"></span></a>
     <nav aria-label="Main">
-      <a class="navlink" href="#executable">How it works</a>
+      <a class="navlink" href="#executable">What it is</a>
       <a class="navlink" href="#arc">Curriculum</a>
       <a class="navlink" href="/guides/agents-and-skills/">Live lesson</a>
-      <a class="navlink" href="#outcomes">Outcomes</a>
-      <a class="btn" href="mailto:hello@techdays.ai?subject=Working%20session">Book a working session</a>
+      <a class="navlink" href="#included">What's included</a>
+      <a class="btn" href="/guides/agents-and-skills/">Open a lesson</a>
     </nav>
   </div>
 </header>
@@ -243,22 +303,22 @@ footer a:hover{color:var(--chalk)}
 <section class="hero">
   <div class="wrap hero-grid">
     <div>
-      <p class="eyebrow">AI fluency for enterprises</p>
-      <h1>Your team's AI training is <span class="strike">a slide deck</span>. <em>Make it a lived skill.</em></h1>
-      <p class="lede">techdays.ai builds immersive learning environments where <strong>every idea on screen is executable</strong> — runnable playbooks, live code, an always-on tutor, and prompt templates your people customize and fire in place.</p>
+      <p class="eyebrow">Hands-on AI fluency for enterprises</p>
+      <h1>Learning environments where <em>every idea is executable.</em></h1>
+      <p class="lede">techdays.ai is an interactive learning platform for AI fluency. <strong>Everything on the page runs</strong> — runnable playbooks, live code, an always-on tutor, and prompt templates learners edit and execute in place. It also holds the guides, docs, and references for working with coding agents, from first prompt to production agent.</p>
       <div class="hero-ctas">
-        <a class="btn solid" href="mailto:hello@techdays.ai?subject=Working%20session">Book a working session</a>
-        <a class="btn" href="/guides/agents-and-skills/">Try a live lesson</a>
+        <a class="btn solid" href="/guides/agents-and-skills/">Open a lesson</a>
+        <a class="btn" href="https://github.com/techdays-ai">View the repositories</a>
       </div>
     </div>
 
-    <div class="playbook" id="playbook" aria-label="Runnable playbook demo">
+    <div class="playbook" id="playbook" aria-label="Runnable playbook example">
       <div class="pb-head">
-        <span>playbook / rollout-comms</span>
-        <span class="pb-status"><span class="dot" aria-hidden="true"></span>live</span>
+        <span>playbook / rollout-plan</span>
+        <span class="pb-status"><span class="dot" aria-hidden="true"></span>runnable</span>
       </div>
       <div class="pb-body">
-        <div class="pb-comment"># This prompt is real. The dashed parts are yours —</div>
+        <div class="pb-comment"># A runnable playbook. The dashed values are inputs —</div>
         <div class="pb-comment"># click one to change it, then run it.</div>
         <br>
         You are an ops lead at <button class="chip" type="button" data-var="company">your company</button>.
@@ -271,7 +331,7 @@ footer a:hover{color:var(--chalk)}
       </div>
       <div class="pb-run">
         <button class="run-btn" id="run" type="button">▸ Run prompt</button>
-        <span class="run-hint" id="hint">runs in place — like everything we teach</span>
+        <span class="run-hint" id="hint">runs in place — like every lesson</span>
       </div>
       <div class="pb-out" id="out" aria-live="polite"></div>
     </div>
@@ -286,24 +346,24 @@ footer a:hover{color:var(--chalk)}
 
 <section id="executable">
   <div class="wrap">
-    <p class="sec-label">How it works</p>
-    <h2>Not another video library. A room where the ideas run.</h2>
-    <p class="sec-intro">Every lesson is built from three working materials. Nothing on the page is an illustration of the thing — it is the thing.</p>
+    <p class="sec-label">What it is</p>
+    <h2>Every lesson is built from executable materials.</h2>
+    <p class="sec-intro">Each lesson is assembled from three working materials. Nothing on the page is an illustration of the idea — it is the idea, running.</p>
     <div class="artifacts">
       <article class="artifact">
         <h3>Runnable playbooks</h3>
-        <p>Step-by-step workflows for real tasks — drafting, analysis, agent orchestration — where every step executes right in the lesson.</p>
+        <p>Step-by-step workflows for real tasks — drafting, analysis, agent orchestration — where every step executes inside the lesson.</p>
         <div class="specimen"><span class="k">step 3/7</span>  triage the inbox<br><span class="g">▸ ran in lesson</span> — 42 messages sorted<br><span class="k">step 4/7</span>  draft the escalation</div>
       </article>
       <article class="artifact">
         <h3>An always-on tutor</h3>
-        <p>Not a chat box in the corner. A tutor woven into every micro-interaction — it sees where you're stuck and meets you there.</p>
+        <p>A tutor woven into each micro-interaction, not a separate chat box. It reads where a learner is stuck and responds in context.</p>
         <div class="specimen"><span class="v">tutor</span> — your prompt lost the constraint<br>from step 2. Want to see the diff, or<br>try once more on your own?</div>
       </article>
       <article class="artifact">
-        <h3>Templates you fire in place</h3>
-        <p>A prompt library scoped to your business. Learners fill in the variables, run it against live models, and keep what works.</p>
-        <div class="specimen">brief = template(<span class="k">"weekly-rollup"</span>)<br>brief.team = <span class="v">"underwriting"</span><br><span class="g">▸ fired</span> — saved to your library</div>
+        <h3>Templates you run in place</h3>
+        <p>A prompt library scoped to the business. Learners fill in the variables, run them against live models, and keep what works.</p>
+        <div class="specimen">brief = template(<span class="k">"weekly-rollup"</span>)<br>brief.team = <span class="v">"underwriting"</span><br><span class="g">▸ ran</span> — saved to your library</div>
       </article>
     </div>
   </div>
@@ -313,54 +373,55 @@ footer a:hover{color:var(--chalk)}
   <div class="wrap">
     <p class="sec-label">The curriculum</p>
     <h2>One arc, four stages: first prompt to production agent.</h2>
-    <p class="sec-intro">The numbers are the path. Every learner enters where they are and leaves one stage further, with work they can show.</p>
+    <p class="sec-intro">The stages are the path. Learners enter where they are and move one stage further, with work they can show at the end of each.</p>
     <div class="arc-rows">
       <div class="arc-row">
         <span class="arc-n">stage 01</span>
         <div><h3>First prompt</h3><span class="arc-who">for every professional</span></div>
-        <p class="arc-can"><b>Walks out able to</b>Frame any task as a prompt with context, constraints, and a checkable result.</p>
+        <p class="arc-can"><b>Ends able to</b>Frame any task as a prompt with context, constraints, and a checkable result.</p>
       </div>
       <div class="arc-row">
         <span class="arc-n">stage 02</span>
         <div><h3>Working fluency</h3><span class="arc-who">for teams and their leads</span></div>
-        <p class="arc-can"><b>Walks out able to</b>Run daily work through playbooks and a shared prompt library — and improve both.</p>
+        <p class="arc-can"><b>Ends able to</b>Run daily work through playbooks and a shared prompt library — and improve both.</p>
       </div>
       <div class="arc-row">
         <span class="arc-n">stage 03</span>
         <div><h3>Agents &amp; skills</h3><span class="arc-who">for builders and power users</span></div>
-        <p class="arc-can"><b>Walks out able to</b>Compose agents, skills, and tools into workflows that survive contact with real data. <a class="arc-try" href="/guides/agents-and-skills/">▸ try this lesson live</a></p>
+        <p class="arc-can"><b>Ends able to</b>Compose agents, skills, and tools into workflows that hold up against real data. <a class="arc-try" href="/guides/agents-and-skills/">▸ open this lesson</a></p>
       </div>
       <div class="arc-row">
         <span class="arc-n">stage 04</span>
         <div><h3>Production agents</h3><span class="arc-who">for engineering teams</span></div>
-        <p class="arc-can"><b>Walks out able to</b>Operationalize agentic systems — A2A, MCP, evals, guardrails — at enterprise scale.</p>
+        <p class="arc-can"><b>Ends able to</b>Operationalize agentic systems — A2A, MCP, evals, guardrails — at enterprise scale.</p>
       </div>
     </div>
   </div>
 </section>
 
-<section class="measure" id="outcomes">
+<section class="measure" id="included">
   <div class="wrap measure-grid">
     <div>
-      <p class="sec-label">Outcomes</p>
-      <h2>We measure what people can do afterward.</h2>
-      <p class="sec-intro">Completion rates flatter the course. Capability is the only metric that matters, so every stage ends in demonstrated, hands-on-keyboard proof.</p>
+      <p class="sec-label">What's included</p>
+      <h2>What a learner has at the end.</h2>
+      <p class="sec-intro">Each stage ends in something demonstrable — hands on keyboard, on tasks from the actual business rather than quizzes.</p>
     </div>
     <ul class="proof">
-      <li><span class="tick mono">✓</span><span>Every learner finishes with <em>shipped artifacts</em>, not certificates — prompts, playbooks, and agents in use on their team.</span></li>
-      <li><span class="tick mono">✓</span><span>Team prompt libraries that <em>outlive the workshop</em>, versioned and shared across the org.</span></li>
-      <li><span class="tick mono">✓</span><span>Capability assessments before and after — <em>measured on real tasks</em> from your business, not quizzes.</span></li>
-      <li><span class="tick mono">✓</span><span>A skills hub your teams keep building on, from <em>first prompt to production agent</em>.</span></li>
+      <li><span class="tick mono">✓</span><span><em>Shipped artifacts</em> — prompts, playbooks, and agents in use on the team, not certificates.</span></li>
+      <li><span class="tick mono">✓</span><span>Team <em>prompt libraries</em>, versioned and shared across the org, that outlast the workshop.</span></li>
+      <li><span class="tick mono">✓</span><span>Capability assessments before and after, <em>measured on real tasks</em> from the business.</span></li>
+      <li><span class="tick mono">✓</span><span>A <em>skills hub</em> teams keep building on, from first prompt to production agent.</span></li>
     </ul>
   </div>
 </section>
 
 <section class="cta">
   <div class="wrap">
-    <h2>Bring your team. Leave with running agents.</h2>
-    <p>A working session is exactly that — your people, your tasks, live models. We'll show you what a techday feels like from the inside.</p>
+    <p class="sec-label">Get started</p>
+    <h2>Open a live lesson and run it yourself.</h2>
+    <p>The agents &amp; skills lesson is fully interactive — edit the inputs, run the steps, and see the tutor respond. The rest of the curriculum builds from the same executable format.</p>
     <div class="hero-ctas">
-      <a class="btn solid" href="mailto:hello@techdays.ai?subject=Working%20session">Book a working session</a>
+      <a class="btn on-dark" href="/guides/agents-and-skills/">Open the agents &amp; skills lesson</a>
     </div>
   </div>
 </section>
@@ -368,7 +429,7 @@ footer a:hover{color:var(--chalk)}
 
 <footer>
   <div class="wrap foot">
-    <span>techdays<span style="color:var(--amber)">.ai</span> — AI fluency, lived.</span>
+    <span>techdays<span class="tld">.ai</span> — hands-on AI fluency.</span>
     <span>
       <a href="https://github.com/techdays-ai">github</a>
       &nbsp;·&nbsp;
@@ -414,8 +475,8 @@ footer a:hover{color:var(--chalk)}
       ["hl","week 3 — agents. "],
       ["","One recurring workflow handed to an agent, with a human checkpoint the team designs.\n"],
       ["hl","week 4 — proof. "],
-      ["","Capability re-assessment on the same tasks. Demo day: what the team shipped, shown to leadership.\n\n"],
-      ["ok","✓ plan drafted — this is the demo. Imagine your material here."]
+      ["","Capability re-assessment on the same tasks. Demo day: the team shows what it shipped.\n\n"],
+      ["ok","✓ plan drafted — every step above ran in place."]
     ];
   }
 
@@ -446,7 +507,7 @@ footer a:hover{color:var(--chalk)}
     typeOut(script(),function(){
       btn.disabled=false;
       btn.textContent="▸ Run again";
-      hint.textContent="change a dashed variable and re-run";
+      hint.textContent="change a dashed input and re-run";
     });
   });
 
