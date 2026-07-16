@@ -1,0 +1,20 @@
+{
+  "name": "techdays.ai",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "lint": "oxlint",
+    "format": "biome format --write .",
+    "check": "biome ci .",
+    "typecheck": "wrangler types && tsc --noEmit",
+    "test": "bun test"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.4",
+    "oxlint": "1.74.0",
+    "typescript": "5.9.3",
+    "wrangler": "4.111.0"
+  }
+}
