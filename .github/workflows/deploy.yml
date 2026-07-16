@@ -1,0 +1,28 @@
+name: Deploy
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# The called workflow can only downgrade these; the org default token is
+# read-only, so the grants must live here in the caller.
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  preview:
+    if: github.event_name == 'pull_request'
+    uses: techdays-ai/.github/.github/workflows/reusable-worker-deploy.yml@main
+    with:
+      environment: preview
+    secrets: inherit
+
+  production:
+    if: github.event_name == 'push'
+    uses: techdays-ai/.github/.github/workflows/reusable-worker-deploy.yml@main
+    with:
+      environment: production
+    secrets: inherit
