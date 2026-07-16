@@ -1,0 +1,588 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agents &amp; skills, fundamentals — a runnable lesson · techdays.ai</title>
+<meta name="description" content="A live coding-agent lesson: run an agent loop in your browser, hit its capability wall, extend it with a skill, then fire a prompt template you customized. Grounded in A2A, MCP-UI, and A2UI.">
+<meta property="og:title" content="Agents &amp; skills, fundamentals — a runnable lesson">
+<meta property="og:description" content="Run an agent loop in your browser, extend it with a skill, fire a prompt you customized. Every idea on this page executes.">
+<meta property="og:url" content="https://techdays.ai/guides/agents-and-skills/">
+<meta property="og:type" content="article">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%230C0E15'/><path d='M9 11h14M16 11v11' stroke='%23F2A93B' stroke-width='3' stroke-linecap='round'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0C0E15;
+  --panel:#131725;
+  --panel-2:#0F131F;
+  --line:rgba(234,230,218,.13);
+  --chalk:#EAE6DA;
+  --muted:#9BA1B0;
+  --iris:#8E96FF;
+  --amber:#F2A93B;
+  --green:#7ED495;
+  --red:#F07178;
+  --display:"Bricolage Grotesque",system-ui,sans-serif;
+  --body:"Instrument Sans",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--chalk);font-family:var(--body);font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased}
+::selection{background:var(--amber);color:var(--ink)}
+a{color:inherit}
+.wrap{max-width:880px;margin:0 auto;padding:0 28px}
+.mono{font-family:var(--mono)}
+
+header{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--ink) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;justify-content:space-between;height:64px;max-width:1180px;margin:0 auto;padding:0 28px}
+.wordmark{font-family:var(--mono);font-weight:500;font-size:16px;text-decoration:none;letter-spacing:-.02em}
+.wordmark .tld{color:var(--amber)}
+.crumb{font-family:var(--mono);font-size:13px;color:var(--muted)}
+.crumb a{color:var(--muted);text-decoration:none}
+.crumb a:hover{color:var(--chalk)}
+.crumb b{color:var(--chalk);font-weight:500}
+:focus-visible{outline:2px solid var(--iris);outline-offset:3px}
+
+/* progress rail */
+.rail{display:flex;gap:10px;margin:40px 0 0;flex-wrap:wrap}
+.rail-step{
+  display:flex;align-items:center;gap:8px;
+  font-family:var(--mono);font-size:12.5px;color:var(--muted);
+  border:1px solid var(--line);border-radius:999px;padding:6px 14px;
+  transition:border-color .2s,color .2s;
+}
+.rail-step .tick{color:var(--line);transition:color .2s}
+.rail-step.done{color:var(--chalk);border-color:rgba(126,212,149,.5)}
+.rail-step.done .tick{color:var(--green)}
+
+.lesson-head{padding:64px 0 20px}
+.eyebrow{font-family:var(--mono);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--iris);margin-bottom:20px}
+h1{font-family:var(--display);font-size:clamp(34px,4.6vw,54px);font-weight:640;line-height:1.05;letter-spacing:-.025em}
+h1 em{font-style:normal;color:var(--amber)}
+.lede{margin-top:22px;font-size:19px;color:var(--muted);max-width:36em}
+.lede strong{color:var(--chalk);font-weight:500}
+.meta-row{display:flex;gap:22px;margin-top:26px;font-family:var(--mono);font-size:13px;color:var(--muted);flex-wrap:wrap}
+.meta-row span b{color:var(--amber);font-weight:400}
+
+section{padding:56px 0}
+h2{font-family:var(--display);font-size:clamp(26px,3vw,36px);font-weight:600;letter-spacing:-.02em;line-height:1.12}
+.sec-label{font-family:var(--mono);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--iris);margin-bottom:14px}
+.prose{margin-top:18px;color:var(--muted);max-width:40em}
+.prose+.prose{margin-top:14px}
+.prose strong{color:var(--chalk);font-weight:500}
+.prose code{font-family:var(--mono);font-size:.88em;color:var(--amber);background:var(--panel-2);border:1px solid var(--line);border-radius:4px;padding:1px 6px}
+
+/* the loop diagram */
+.loop{display:flex;align-items:stretch;gap:0;margin-top:34px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--panel)}
+.loop-cell{flex:1;padding:22px 20px;border-right:1px solid var(--line)}
+.loop-cell:last-child{border-right:none}
+.loop-cell .n{font-family:var(--mono);font-size:12px;color:var(--amber)}
+.loop-cell h3{font-family:var(--display);font-size:19px;font-weight:600;margin-top:8px}
+.loop-cell p{font-size:14.5px;color:var(--muted);margin-top:6px}
+.loop-back{font-family:var(--mono);font-size:12.5px;color:var(--muted);text-align:right;padding:8px 4px 0}
+.loop-back b{color:var(--iris);font-weight:400}
+@media(max-width:760px){.loop{flex-direction:column}.loop-cell{border-right:none;border-bottom:1px solid var(--line)}.loop-cell:last-child{border-bottom:none}}
+
+/* lab (editor + output) */
+.lab{background:var(--panel);border:1px solid var(--line);border-radius:10px;box-shadow:0 30px 80px rgba(0,0,0,.45);margin-top:34px;font-family:var(--mono);font-size:14px}
+.lab-head{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--line);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.lab-status{display:flex;align-items:center;gap:8px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green)}
+.lab-cols{display:grid;grid-template-columns:1fr 1fr}
+@media(max-width:900px){.lab-cols{grid-template-columns:1fr}}
+.lab-editor{border-right:1px solid var(--line);display:flex;flex-direction:column}
+@media(max-width:900px){.lab-editor{border-right:none;border-bottom:1px solid var(--line)}}
+.pane-tag{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:10px 16px 0}
+textarea.code{
+  width:100%;flex:1;min-height:420px;resize:vertical;
+  background:transparent;border:none;outline:none;color:var(--chalk);
+  font-family:var(--mono);font-size:13px;line-height:1.7;padding:12px 16px 18px;
+  caret-color:var(--amber);white-space:pre;overflow-x:auto;
+}
+.lab-out{background:var(--panel-2);display:flex;flex-direction:column}
+.out-body{padding:12px 16px 18px;white-space:pre-wrap;line-height:1.75;font-size:13px;flex:1;min-height:420px;overflow-y:auto}
+.out-body .sys{color:var(--muted)}
+.out-body .ok{color:var(--green)}
+.out-body .hl{color:var(--amber)}
+.out-body .err{color:var(--red)}
+.out-body .tool{color:var(--iris)}
+.lab-run{display:flex;align-items:center;gap:14px;padding:14px 20px;border-top:1px solid var(--line)}
+.run-btn{font-family:var(--mono);font-size:13px;font-weight:500;padding:9px 18px;border-radius:6px;border:none;cursor:pointer;background:var(--amber);color:var(--ink);transition:background .15s}
+.run-btn:hover,.run-btn:focus-visible{background:#ffc069}
+.run-btn[disabled]{opacity:.55;cursor:default}
+.ghost-btn{font-family:var(--mono);font-size:13px;padding:9px 16px;border-radius:6px;border:1px solid var(--line);cursor:pointer;background:transparent;color:var(--muted);transition:color .15s,border-color .15s}
+.ghost-btn:hover,.ghost-btn:focus-visible{color:var(--chalk);border-color:var(--muted)}
+.run-hint{font-size:12.5px;color:var(--muted)}
+
+/* exercise callout */
+.callout{display:flex;gap:16px;margin-top:26px;border:1px dashed rgba(242,169,59,.55);background:rgba(242,169,59,.06);border-radius:10px;padding:20px 22px}
+.callout .badge{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);white-space:nowrap}
+.callout p{font-size:15.5px;color:var(--muted)}
+.callout p strong{color:var(--chalk);font-weight:500}
+.callout code{font-family:var(--mono);font-size:.88em;color:var(--amber)}
+
+/* prompt template */
+.playbook{background:var(--panel);border:1px solid var(--line);border-radius:10px;box-shadow:0 30px 80px rgba(0,0,0,.45);font-family:var(--mono);font-size:14px;margin-top:34px}
+.pb-head{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--line);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.pb-body{padding:22px 20px;line-height:1.9}
+.pb-comment{color:var(--muted)}
+input.slot{
+  font-family:var(--mono);font-size:13.5px;color:var(--iris);
+  background:rgba(142,150,255,.14);border:1px dashed rgba(142,150,255,.55);
+  border-radius:5px;padding:2px 9px;outline:none;
+  transition:background .12s,border-color .12s;
+}
+input.slot:focus{background:rgba(142,150,255,.25);border-color:var(--iris)}
+.pb-run{display:flex;align-items:center;gap:14px;padding:14px 20px;border-top:1px solid var(--line);flex-wrap:wrap}
+.pb-out{display:none;padding:18px 20px 22px;border-top:1px solid var(--line);background:var(--panel-2);border-radius:0 0 10px 10px;white-space:pre-wrap;line-height:1.75;font-size:13px;min-height:100px}
+.pb-out.live{display:block}
+.pb-out .sys{color:var(--muted)}
+.pb-out .ok{color:var(--green)}
+.pb-out .hl{color:var(--amber)}
+.pb-out .tool{color:var(--iris)}
+
+/* references */
+.refs{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:34px}
+@media(max-width:900px){.refs{grid-template-columns:1fr}}
+.ref{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:24px;display:flex;flex-direction:column;gap:12px;text-decoration:none;transition:transform .18s ease,border-color .18s ease}
+.ref:hover{transform:translateY(-4px);border-color:rgba(242,169,59,.45)}
+.ref .proto{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--amber)}
+.ref h3{font-family:var(--display);font-size:19px;font-weight:600}
+.ref p{font-size:14.5px;color:var(--muted)}
+.ref .go{font-family:var(--mono);font-size:12.5px;color:var(--iris);margin-top:auto}
+
+/* done banner + cta */
+.done-banner{
+  display:none;margin-top:26px;border:1px solid rgba(126,212,149,.5);
+  background:rgba(126,212,149,.07);border-radius:10px;padding:20px 22px;
+  font-family:var(--mono);font-size:14px;color:var(--green);
+}
+.done-banner.live{display:block}
+.done-banner span{color:var(--muted)}
+.cta{text-align:center;padding:90px 0 110px}
+.cta h2{margin:0 auto;max-width:16em}
+.cta p{margin:20px auto 0;color:var(--muted);max-width:32em}
+.btn{display:inline-block;padding:11px 22px;border-radius:6px;font-family:var(--mono);font-size:14px;font-weight:500;text-decoration:none;border:1px solid var(--amber);color:var(--amber);background:transparent;transition:background .15s,color .15s;cursor:pointer}
+.btn:hover,.btn:focus-visible{background:var(--amber);color:var(--ink)}
+.btn.solid{background:var(--amber);color:var(--ink)}
+.btn.solid:hover,.btn.solid:focus-visible{background:#ffc069;border-color:#ffc069}
+.cta-row{margin-top:32px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+
+footer{border-top:1px solid var(--line);padding:36px 0;font-family:var(--mono);font-size:13px;color:var(--muted)}
+.foot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;max-width:1180px;margin:0 auto;padding:0 28px}
+footer a{color:var(--muted);text-decoration:none}
+footer a:hover{color:var(--chalk)}
+
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}.ref{transition:none}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="bar">
+    <a class="wordmark" href="/">techdays<span class="tld">.ai</span></a>
+    <span class="crumb"><a href="/#arc">curriculum</a> / stage 03 / <b>agents &amp; skills</b></span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="lesson-head">
+  <p class="eyebrow">Guide · stage 03 · agents &amp; skills</p>
+  <h1>An agent is a loop. <em>Skills are what it's allowed to do.</em></h1>
+  <p class="lede">In the next fifteen minutes you'll run a coding agent in this page, watch it <strong>hit the wall of its own capabilities</strong>, hand it a new skill, and watch the same task succeed. Then you'll fire a prompt you customized yourself. <strong>Nothing here is a screenshot — every block executes.</strong></p>
+  <div class="meta-row">
+    <span><b>▸</b> ~15 min, hands-on</span>
+    <span><b>▸</b> runs in your browser</span>
+    <span><b>▸</b> grounded in A2A · MCP-UI · A2UI</span>
+  </div>
+  <div class="rail" aria-label="Lesson progress">
+    <span class="rail-step" id="step1"><span class="tick">✓</span> run the agent</span>
+    <span class="rail-step" id="step2"><span class="tick">✓</span> hit the capability wall</span>
+    <span class="rail-step" id="step3"><span class="tick">✓</span> extend it with a skill</span>
+    <span class="rail-step" id="step4"><span class="tick">✓</span> fire your own prompt</span>
+  </div>
+</div>
+
+<section id="loop">
+  <p class="sec-label">01 · The idea</p>
+  <h2>Plan, act, observe — repeat.</h2>
+  <p class="prose">Strip away the vendor language and a coding agent is a small machine: a model <strong>plans</strong> the next step, <strong>acts</strong> by calling a tool, <strong>observes</strong> what came back, and loops until the task checks out. The model supplies judgement. Everything else — reading files, running tests, editing code — happens through <strong>skills</strong>: named, described capabilities the agent is explicitly given.</p>
+  <p class="prose">That's the whole trick, and it's also the safety model: <strong>an agent can only do what its skills allow.</strong> You'll feel that boundary first-hand in a moment.</p>
+  <div class="loop" role="img" aria-label="The agent loop: plan, act, observe, check — repeating">
+    <div class="loop-cell"><span class="n">1 · plan</span><h3>Decide the step</h3><p>The model reads the task and the transcript so far, and picks the next move.</p></div>
+    <div class="loop-cell"><span class="n">2 · act</span><h3>Call a skill</h3><p>Not "do anything" — invoke one named capability, with arguments.</p></div>
+    <div class="loop-cell"><span class="n">3 · observe</span><h3>Read the result</h3><p>Tool output goes back into context. Errors are information, not failure.</p></div>
+    <div class="loop-cell"><span class="n">4 · check</span><h3>Done or loop</h3><p>Verified against the goal — tests pass, output matches — or plan again.</p></div>
+  </div>
+  <p class="loop-back">↺ <b>not done?</b> the loop continues with everything it just learned</p>
+</section>
+
+<section id="lab">
+  <p class="sec-label">02 · The lab</p>
+  <h2>Run the agent. Then hit the wall.</h2>
+  <p class="prose">Below is a live editor. The left pane defines the two things you own: the <code>skills</code> the agent may use, and the <code>task</code>. The demo repo behind it has a failing test — <code>pricing.js</code> adds a discount instead of subtracting it. Press <strong>▸ Run agent</strong> and watch the loop work.</p>
+  <p class="prose">The planner in this sandbox is scripted so the demo stays predictable — but the skills are <strong>real code you can edit</strong>, and the agent genuinely calls them. Break one and watch the transcript change.</p>
+
+  <div class="lab" aria-label="Live agent lab">
+    <div class="lab-head">
+      <span>lab / fix-the-failing-test</span>
+      <span class="lab-status"><span class="dot" aria-hidden="true"></span>sandbox live</span>
+    </div>
+    <div class="lab-cols">
+      <div class="lab-editor">
+        <div class="pane-tag">skills.js — editable</div>
+        <textarea class="code" id="editor" spellcheck="false" aria-label="Editable agent skills code">// The agent may ONLY act through these skills.
+// Edit them — the agent really calls this code.
+
+const skills = {
+  run_tests: {
+    description: "Run the repo's test suite",
+    run: () => repo.runTests(),
+  },
+
+  read_file: {
+    description: "Read one file from the repo",
+    run: ({ path }) => repo.read(path),
+  },
+
+  // ⬇ EXERCISE — the agent can't fix what it
+  // can't write. Uncomment this skill, run again.
+  //
+  // write_file: {
+  //   description: "Overwrite one file in the repo",
+  //   run: ({ path, content }) => repo.write(path, content),
+  // },
+};
+
+const task = "Fix the failing test in pricing.js";
+
+agent(task, skills);</textarea>
+      </div>
+      <div class="lab-out">
+        <div class="pane-tag">agent transcript</div>
+        <div class="out-body" id="labout" aria-live="polite"><span class="sys"># press ▸ Run agent — the transcript appears here</span></div>
+      </div>
+    </div>
+    <div class="lab-run">
+      <button class="run-btn" id="labrun" type="button">▸ Run agent</button>
+      <button class="ghost-btn" id="labreset" type="button">reset code</button>
+      <span class="run-hint" id="labhint">the sandbox repo resets on every run</span>
+    </div>
+  </div>
+
+  <div class="callout" id="wallnote" style="display:none">
+    <span class="badge">the wall</span>
+    <p><strong>The agent just told you what it's missing.</strong> It diagnosed the bug but has no skill that can change a file. That's not a failure — that's the security model working. Uncomment the <code>write_file</code> skill in the editor and run again.</p>
+  </div>
+
+  <div class="done-banner" id="labdone">✓ tests green — you just extended an agent's capability by granting it a skill. <span>That one move — capability as explicit, named grants — is the core of production agent design.</span></div>
+</section>
+
+<section id="fire">
+  <p class="sec-label">03 · Fire in place</p>
+  <h2>Now write the prompt like you mean it.</h2>
+  <p class="prose">Everything the agent did started from a task statement. A good one names the <strong>goal</strong>, the <strong>verification</strong>, and the <strong>boundaries</strong> — the same three things you just watched matter in the loop. This template is live: the dashed fields are yours to type in. Fire it here, or copy it into your own agent.</p>
+
+  <div class="playbook" aria-label="Customizable prompt template">
+    <div class="pb-head">
+      <span>template / coding-agent-task</span>
+      <span>yours to edit</span>
+    </div>
+    <div class="pb-body">
+      <div class="pb-comment"># type in the dashed fields — the prompt is yours</div>
+      <br>
+      You are a coding agent working in
+      <input class="slot" id="v-repo" value="our billing service" size="18" aria-label="Repository or codebase">.
+      Fix
+      <input class="slot" id="v-bug" value="the discount calculation bug" size="26" aria-label="The bug or task">.
+      Before changing anything, reproduce it with
+      <input class="slot" id="v-verify" value="the existing test suite" size="21" aria-label="Verification method">.
+      Make the smallest change that passes, and do not touch
+      <input class="slot" id="v-boundary" value="the public API" size="14" aria-label="Boundary — what not to touch">.
+      When done, show the diff and the passing run.
+    </div>
+    <div class="pb-run">
+      <button class="run-btn" id="fire" type="button">▸ Fire in place</button>
+      <button class="ghost-btn" id="copy" type="button">copy prompt</button>
+      <span class="run-hint" id="firehint">fires against the same loop you just ran</span>
+    </div>
+    <div class="pb-out" id="fireout" aria-live="polite"></div>
+  </div>
+</section>
+
+<section id="grounding">
+  <p class="sec-label">04 · Where this goes next</p>
+  <h2>The loop scales through three open protocols.</h2>
+  <p class="prose">The lesson you just ran is one agent, one repo, one screen. In production the same loop composes outward — and the pieces you'd reach for are open, documented protocols, not vendor magic. This lesson's design is grounded in all three:</p>
+  <div class="refs">
+    <a class="ref" href="https://a2a-protocol.org" target="_blank" rel="noopener">
+      <span class="proto">A2A</span>
+      <h3>Agent2Agent Protocol</h3>
+      <p>When one agent isn't enough, agents delegate to each other — discovering capabilities via Agent Cards and exchanging tasks. The "skills as explicit grants" idea you just used is how A2A agents describe themselves too.</p>
+      <span class="go">a2a-protocol.org →</span>
+    </a>
+    <a class="ref" href="https://mcpui.dev" target="_blank" rel="noopener">
+      <span class="proto">MCP-UI</span>
+      <h3>Interactive UI over MCP</h3>
+      <p>MCP standardizes how agents call tools; MCP-UI lets those tools answer with live interface, not just text — the way this page's lab answers your run with a transcript panel.</p>
+      <span class="go">mcpui.dev →</span>
+    </a>
+    <a class="ref" href="https://github.com/google/A2UI" target="_blank" rel="noopener">
+      <span class="proto">A2UI</span>
+      <h3>Agent-to-User Interface</h3>
+      <p>A declarative format agents use to render rich, safe UI for humans mid-task — checkpoints, forms, approvals. The human-in-the-loop half of everything you just watched.</p>
+      <span class="go">github.com/google/A2UI →</span>
+    </a>
+  </div>
+</section>
+
+<section class="cta">
+  <h2>This was one lesson. A techday is a room full of them.</h2>
+  <p>Same format — your codebase, your tasks, live models — with a tutor woven into every step. Bring your team; leave with running agents.</p>
+  <div class="cta-row">
+    <a class="btn solid" href="mailto:hello@techdays.ai?subject=Working%20session">Book a working session</a>
+    <a class="btn" href="/#arc">Back to the curriculum</a>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="foot">
+    <span>techdays<span style="color:var(--amber)">.ai</span> — AI fluency, lived.</span>
+    <span>
+      <a href="https://github.com/techdays-ai">github</a>
+      &nbsp;·&nbsp;
+      <a href="mailto:hello@techdays.ai">hello@techdays.ai</a>
+    </span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function mark(step){
+    var el = document.getElementById(step);
+    if(el) el.classList.add("done");
+  }
+
+  /* ---------- typed transcript renderer ---------- */
+  function typeOut(el, parts, done){
+    el.innerHTML = "";
+    var p = 0;
+    function nextPart(){
+      if(p >= parts.length){ if(done) done(); return; }
+      var span = document.createElement("span");
+      var cls = parts[p][0], text = parts[p][1];
+      if(cls) span.className = cls;
+      el.appendChild(span);
+      if(reduced){ span.textContent = text; p++; nextPart(); return; }
+      var i = 0;
+      (function tick(){
+        span.textContent = text.slice(0, ++i);
+        el.scrollTop = el.scrollHeight;
+        if(i < text.length){ setTimeout(tick, text.length > 90 ? 4 : 11); }
+        else { p++; setTimeout(nextPart, 90); }
+      })();
+    }
+    nextPart();
+  }
+
+  /* ---------- the sandbox repo ---------- */
+  function freshRepo(){
+    var files = {
+      "pricing.js":
+        "export function total(price, discount) {\n" +
+        "  return price + discount;\n" +
+        "}",
+      "pricing.test.js":
+        "assert(total(100, 20) === 80);\n" +
+        "assert(total(50, 0) === 50);"
+    };
+    return {
+      read: function(path){
+        if(files[path] === undefined) return "ERROR: no such file: " + path;
+        return files[path];
+      },
+      write: function(args){
+        var path = args && args.path, content = args && args.content;
+        if(!path || content === undefined) return "ERROR: write_file needs { path, content }";
+        files[path] = content;
+        return "wrote " + path + " (" + content.length + " chars)";
+      },
+      runTests: function(){
+        var src = files["pricing.js"] || "";
+        var fixed = /price\s*-\s*discount/.test(src);
+        return fixed
+          ? "PASS  2 passed, 0 failed"
+          : "FAIL  1 of 2 failed — total(100, 20) expected 80, got 120";
+      }
+    };
+  }
+
+  /* ---------- the agent (scripted planner, real skill calls) ---------- */
+  function buildAgent(repo, parts, state){
+    function call(skills, name, args, argLabel){
+      var skill = skills[name];
+      parts.push(["tool", "→ " + name + "(" + (argLabel || "") + ")\n"]);
+      var result;
+      try { result = String(skill.run(args)); }
+      catch(e){ result = "SKILL ERROR: " + e.message; }
+      parts.push(["sys", "  " + result.split("\n").join("\n  ") + "\n\n"]);
+      return result;
+    }
+    return function agent(task, skills){
+      skills = skills || {};
+      var names = Object.keys(skills);
+      parts.push(["hl", "task  "], ["", String(task) + "\n"]);
+      parts.push(["sys", "skills granted: " + (names.length ? names.join(", ") : "(none)") + "\n\n"]);
+
+      if(!skills.run_tests){
+        parts.push(["err", "✗ I have no way to verify anything — grant me a run_tests skill and I can start.\n"]);
+        return;
+      }
+      parts.push(["sys", "▸ plan: reproduce the failure first\n"]);
+      var t1 = call(skills, "run_tests", {}, "");
+      if(t1.indexOf("PASS") === 0){
+        parts.push(["ok", "✓ tests already pass — nothing to fix. Change pricing.js in the repo and re-run.\n"]);
+        return;
+      }
+      if(!skills.read_file){
+        parts.push(["err", "✗ a test fails but I can't read source — grant me a read_file skill.\n"]);
+        return;
+      }
+      parts.push(["sys", "▸ plan: read the file the test points at\n"]);
+      var src = call(skills, "read_file", { path: "pricing.js" }, "{ path: \"pricing.js\" }");
+      if(src.indexOf("ERROR") === 0 || src.indexOf("SKILL ERROR") === 0){
+        parts.push(["err", "✗ read_file didn't give me usable source — I can't go further.\n"]);
+        return;
+      }
+      parts.push(["sys", "▸ observe: "], ["", "total() adds the discount. Expected 80, got 120 — it should subtract.\n\n"]);
+
+      if(!skills.write_file){
+        state.hitWall = true;
+        parts.push(["hl", "◼ capability wall. "],
+          ["", "I can see the one-line fix (price - discount), but none of my skills can change a file.\n"],
+          ["sys", "  Diagnosis is all you granted me. Give me a write_file skill and I'll finish the job.\n"]);
+        return;
+      }
+
+      parts.push(["sys", "▸ plan: apply the smallest fix\n"]);
+      var fixedSrc = "export function total(price, discount) {\n  return price - discount;\n}";
+      call(skills, "write_file", { path: "pricing.js", content: fixedSrc }, "{ path: \"pricing.js\", … }");
+      parts.push(["sys", "▸ plan: verify — the loop isn't done until the check passes\n"]);
+      var t2 = call(skills, "run_tests", {}, "");
+      if(t2.indexOf("PASS") === 0){
+        state.fixed = true;
+        parts.push(["ok", "✓ done — bug fixed, tests green, and every step went through a skill you granted.\n"]);
+      } else {
+        parts.push(["err", "✗ still failing after the write — check what your write_file skill actually does.\n"]);
+      }
+    };
+  }
+
+  /* ---------- lab wiring ---------- */
+  var editor = document.getElementById("editor");
+  var labout = document.getElementById("labout");
+  var labrun = document.getElementById("labrun");
+  var labreset = document.getElementById("labreset");
+  var labhint = document.getElementById("labhint");
+  var wallnote = document.getElementById("wallnote");
+  var labdone = document.getElementById("labdone");
+  var initialCode = editor.value;
+
+  labrun.addEventListener("click", function(){
+    var parts = [];
+    var state = { hitWall: false, fixed: false };
+    var repo = freshRepo();
+    var agent = buildAgent(repo, parts, state);
+    try {
+      /* the learner's code runs for real — skills are live functions */
+      new Function("repo", "agent", editor.value)(repo, agent);
+    } catch(e){
+      parts.push(["err", "✗ your code didn't parse: " + e.message + "\n"],
+                 ["sys", "  fix the editor pane and run again — errors are part of the loop.\n"]);
+    }
+    if(parts.length === 0){
+      parts.push(["sys", "# nothing ran — keep the agent(task, skills) call at the end of the editor.\n"]);
+    }
+    labrun.disabled = true;
+    labhint.textContent = "agent running …";
+    typeOut(labout, parts, function(){
+      labrun.disabled = false;
+      labrun.textContent = "▸ Run again";
+      mark("step1");
+      if(state.hitWall){
+        wallnote.style.display = "flex";
+        mark("step2");
+        labhint.textContent = "now uncomment write_file and re-run";
+      }
+      if(state.fixed){
+        labdone.classList.add("live");
+        mark("step2"); mark("step3");
+        labhint.textContent = "try breaking a skill — errors are part of the loop";
+      }
+    });
+  });
+
+  labreset.addEventListener("click", function(){
+    editor.value = initialCode;
+    labout.innerHTML = "<span class=\"sys\"># code reset — press ▸ Run agent</span>";
+    labrun.textContent = "▸ Run agent";
+    labhint.textContent = "the sandbox repo resets on every run";
+  });
+
+  /* ---------- fire-in-place template ---------- */
+  function slot(id){ return document.getElementById(id).value.trim() || "…"; }
+  function composedPrompt(){
+    return "You are a coding agent working in " + slot("v-repo") + ". " +
+      "Fix " + slot("v-bug") + ". " +
+      "Before changing anything, reproduce it with " + slot("v-verify") + ". " +
+      "Make the smallest change that passes, and do not touch " + slot("v-boundary") + ". " +
+      "When done, show the diff and the passing run.";
+  }
+
+  var fire = document.getElementById("fire");
+  var copy = document.getElementById("copy");
+  var fireout = document.getElementById("fireout");
+  var firehint = document.getElementById("firehint");
+
+  fire.addEventListener("click", function(){
+    fire.disabled = true;
+    firehint.textContent = "running against the model …";
+    fireout.classList.add("live");
+    var parts = [
+      ["hl", "prompt  "], ["sys", composedPrompt() + "\n\n"],
+      ["sys", "▸ agent accepted the task — same loop as the lab above\n"],
+      ["tool", "→ run_tests()"], ["sys", "   reproducing before touching code …\n"],
+      ["tool", "→ read_file()"], ["sys", "   locating " + slot("v-bug") + " in " + slot("v-repo") + " …\n"],
+      ["tool", "→ write_file()"], ["sys", "  smallest change that passes — " + slot("v-boundary") + " untouched\n"],
+      ["tool", "→ run_tests()"], ["sys", "   verified with " + slot("v-verify") + "\n\n"],
+      ["ok", "✓ fired — this is the demo. In a techday it runs against your repo, live."]
+    ];
+    typeOut(fireout, parts, function(){
+      fire.disabled = false;
+      fire.textContent = "▸ Fire again";
+      firehint.textContent = "edit a dashed field and fire again — or copy it out";
+      mark("step4");
+    });
+  });
+
+  copy.addEventListener("click", function(){
+    var text = composedPrompt();
+    function done(){ copy.textContent = "copied ✓"; setTimeout(function(){ copy.textContent = "copy prompt"; }, 1600); }
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(done, done);
+    } else { done(); }
+  });
+})();
+</script>
+</body>
+</html>
