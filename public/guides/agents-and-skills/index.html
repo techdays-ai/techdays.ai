@@ -411,9 +411,12 @@ agent(task, skills);</textarea>
         if(files[path] === undefined) return "ERROR: no such file: " + path;
         return files[path];
       },
-      write: function(args){
-        var path = args && args.path, content = args && args.content;
-        if(!path || content === undefined) return "ERROR: write_file needs { path, content }";
+      write: function(a, b){
+        /* learners call this both ways: write(path, content) and write({ path, content }) */
+        var path, content;
+        if(typeof a === "string"){ path = a; content = b; }
+        else { path = a && a.path; content = a && a.content; }
+        if(!path || content === undefined) return "ERROR: write_file needs a path and content";
         files[path] = content;
         return "wrote " + path + " (" + content.length + " chars)";
       },
