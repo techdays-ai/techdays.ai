@@ -5,6 +5,13 @@ on:
   push:
     branches: [main]
 
+# The called workflow can only downgrade these; the org default token is
+# read-only, so the grants must live here in the caller.
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
 jobs:
   preview:
     if: github.event_name == 'pull_request'
