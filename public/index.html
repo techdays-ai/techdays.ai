@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>techdays.ai — AI fluency is a lived skill</title>
+<meta name="description" content="Immersive learning environments where every idea is executable. Runnable playbooks, live code, an always-on tutor, and prompt templates your team fires in place. From first prompt to production agent.">
+<meta property="og:title" content="techdays.ai — AI fluency is a lived skill">
+<meta property="og:description" content="Immersive, executable AI-fluency learning for enterprises. From first prompt to production agent.">
+<meta property="og:url" content="https://techdays.ai">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%230C0E15'/><path d='M9 11h14M16 11v11' stroke='%23F2A93B' stroke-width='3' stroke-linecap='round'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0C0E15;
+  --panel:#131725;
+  --panel-2:#0F131F;
+  --line:rgba(234,230,218,.13);
+  --chalk:#EAE6DA;
+  --muted:#9BA1B0;
+  --iris:#8E96FF;
+  --amber:#F2A93B;
+  --green:#7ED495;
+  --display:"Bricolage Grotesque",system-ui,sans-serif;
+  --body:"Instrument Sans",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--ink);
+  color:var(--chalk);
+  font-family:var(--body);
+  font-size:17px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--amber);color:var(--ink)}
+a{color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+.mono{font-family:var(--mono)}
+
+/* ---------- top bar ---------- */
+header{
+  position:sticky;top:0;z-index:50;
+  background:color-mix(in srgb, var(--ink) 88%, transparent);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.bar{display:flex;align-items:center;justify-content:space-between;height:64px}
+.wordmark{font-family:var(--mono);font-weight:500;font-size:16px;text-decoration:none;letter-spacing:-.02em}
+.wordmark .tld{color:var(--amber)}
+.caret{display:inline-block;width:9px;height:18px;background:var(--amber);vertical-align:-3px;margin-left:6px;animation:blink 1.15s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+nav{display:flex;gap:28px;align-items:center}
+nav a{font-size:15px;color:var(--muted);text-decoration:none;transition:color .15s}
+nav a:hover,nav a:focus-visible{color:var(--chalk)}
+.btn{
+  display:inline-block;padding:11px 22px;border-radius:6px;
+  font-family:var(--mono);font-size:14px;font-weight:500;text-decoration:none;
+  border:1px solid var(--amber);color:var(--amber);background:transparent;
+  transition:background .15s,color .15s;cursor:pointer;
+}
+.btn:hover,.btn:focus-visible{background:var(--amber);color:var(--ink)}
+.btn.solid{background:var(--amber);color:var(--ink)}
+.btn.solid:hover,.btn.solid:focus-visible{background:#ffc069;border-color:#ffc069}
+:focus-visible{outline:2px solid var(--iris);outline-offset:3px}
+@media(max-width:820px){nav a.navlink{display:none}}
+
+/* ---------- hero ---------- */
+.hero{padding:88px 0 72px;position:relative;overflow:hidden}
+.hero::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(700px 420px at 82% 8%, rgba(142,150,255,.10), transparent 65%),
+    radial-gradient(520px 360px at 8% 92%, rgba(242,169,59,.06), transparent 65%);
+}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:64px;align-items:center;position:relative}
+@media(max-width:960px){.hero-grid{grid-template-columns:1fr;gap:44px}}
+.eyebrow{font-family:var(--mono);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--iris);margin-bottom:22px}
+h1{
+  font-family:var(--display);
+  font-size:clamp(40px,5.4vw,68px);
+  font-weight:640;
+  line-height:1.02;
+  letter-spacing:-.025em;
+}
+h1 em{font-style:normal;color:var(--amber)}
+h1 .strike{position:relative;white-space:nowrap;color:var(--muted)}
+h1 .strike::after{
+  content:"";position:absolute;left:-2%;right:-2%;top:54%;height:.09em;
+  background:var(--amber);transform:rotate(-2deg);border-radius:2px;
+}
+.lede{margin-top:26px;font-size:19px;color:var(--muted);max-width:34em}
+.lede strong{color:var(--chalk);font-weight:500}
+.hero-ctas{margin-top:36px;display:flex;gap:16px;flex-wrap:wrap}
+
+/* ---------- playbook card (signature) ---------- */
+.playbook{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:10px;
+  box-shadow:0 30px 80px rgba(0,0,0,.45);
+  font-family:var(--mono);
+  font-size:14px;
+}
+.pb-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 20px;border-bottom:1px solid var(--line);
+  font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);
+}
+.pb-status{display:flex;align-items:center;gap:8px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green)}
+.pb-body{padding:22px 20px;line-height:1.75}
+.pb-comment{color:var(--muted)}
+.chip{
+  display:inline-block;padding:1px 9px;border-radius:5px;cursor:pointer;
+  background:rgba(142,150,255,.14);border:1px dashed rgba(142,150,255,.55);
+  color:var(--iris);user-select:none;transition:background .12s;
+  font:inherit;
+}
+.chip:hover,.chip:focus-visible{background:rgba(142,150,255,.28)}
+.pb-run{
+  display:flex;align-items:center;gap:14px;
+  padding:14px 20px;border-top:1px solid var(--line);
+}
+.run-btn{
+  font-family:var(--mono);font-size:13px;font-weight:500;
+  padding:9px 18px;border-radius:6px;border:none;cursor:pointer;
+  background:var(--amber);color:var(--ink);transition:background .15s;
+}
+.run-btn:hover,.run-btn:focus-visible{background:#ffc069}
+.run-btn[disabled]{opacity:.55;cursor:default}
+.run-hint{font-size:12.5px;color:var(--muted)}
+.pb-out{
+  display:none;padding:18px 20px 22px;border-top:1px solid var(--line);
+  background:var(--panel-2);border-radius:0 0 10px 10px;
+  white-space:pre-wrap;line-height:1.7;font-size:13.5px;min-height:120px;
+}
+.pb-out.live{display:block}
+.pb-out .sys{color:var(--muted)}
+.pb-out .ok{color:var(--green)}
+.pb-out .hl{color:var(--amber)}
+
+/* ---------- ticker ---------- */
+.ticker{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;padding:15px 0;background:var(--panel-2)}
+.ticker-track{display:flex;gap:52px;white-space:nowrap;font-family:var(--mono);font-size:13.5px;color:var(--muted);animation:scroll 46s linear infinite;width:max-content}
+.ticker-track span b{color:var(--amber);font-weight:400;margin-right:52px}
+@keyframes scroll{to{transform:translateX(-50%)}}
+
+/* ---------- sections ---------- */
+section{padding:96px 0}
+.sec-label{font-family:var(--mono);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--iris);margin-bottom:18px}
+h2{font-family:var(--display);font-size:clamp(30px,3.6vw,46px);font-weight:600;letter-spacing:-.02em;line-height:1.08;max-width:20em}
+.sec-intro{margin-top:18px;color:var(--muted);max-width:38em}
+
+/* artifacts */
+.artifacts{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:56px}
+@media(max-width:960px){.artifacts{grid-template-columns:1fr}}
+.artifact{
+  background:var(--panel);border:1px solid var(--line);border-radius:10px;
+  padding:26px;display:flex;flex-direction:column;gap:16px;
+  transition:transform .18s ease,border-color .18s ease;
+}
+.artifact:hover{transform:translateY(-4px);border-color:rgba(242,169,59,.45)}
+.artifact h3{font-family:var(--display);font-size:21px;font-weight:600}
+.artifact p{font-size:15.5px;color:var(--muted)}
+.specimen{
+  font-family:var(--mono);font-size:12.5px;line-height:1.7;
+  background:var(--panel-2);border:1px solid var(--line);border-radius:7px;
+  padding:14px 16px;color:var(--muted);margin-top:auto;
+}
+.specimen .k{color:var(--iris)}
+.specimen .v{color:var(--amber)}
+.specimen .g{color:var(--green)}
+
+/* arc — a real sequence, numbers carry meaning */
+.arc{border-top:1px solid var(--line)}
+.arc-rows{margin-top:56px;border-top:1px solid var(--line)}
+.arc-row{
+  display:grid;grid-template-columns:120px 1fr 1.2fr;gap:32px;
+  padding:34px 0;border-bottom:1px solid var(--line);align-items:baseline;
+}
+@media(max-width:820px){.arc-row{grid-template-columns:64px 1fr;gap:18px}.arc-row .arc-can{grid-column:2}}
+.arc-n{font-family:var(--mono);font-size:14px;color:var(--amber)}
+.arc-row h3{font-family:var(--display);font-size:24px;font-weight:600}
+.arc-row .arc-who{display:block;margin-top:6px;font-size:14.5px;color:var(--muted)}
+.arc-can{font-size:15.5px;color:var(--muted)}
+.arc-can b{color:var(--chalk);font-weight:500;display:block;margin-bottom:4px;font-family:var(--mono);font-size:12.5px;letter-spacing:.1em;text-transform:uppercase}
+
+/* measurement */
+.measure{background:var(--panel-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.measure-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
+@media(max-width:900px){.measure-grid{grid-template-columns:1fr}}
+.proof{list-style:none;display:flex;flex-direction:column;gap:0;border-top:1px solid var(--line)}
+.proof li{
+  display:flex;gap:18px;padding:20px 4px;border-bottom:1px solid var(--line);
+  font-size:16px;align-items:baseline;
+}
+.proof .tick{font-family:var(--mono);color:var(--green);flex-shrink:0}
+.proof span:last-child em{font-style:normal;color:var(--amber)}
+
+/* cta */
+.cta{text-align:center;padding:120px 0}
+.cta h2{margin:0 auto;max-width:16em}
+.cta p{margin:22px auto 0;color:var(--muted);max-width:32em}
+.cta .hero-ctas{justify-content:center}
+
+footer{border-top:1px solid var(--line);padding:36px 0;font-family:var(--mono);font-size:13px;color:var(--muted)}
+.foot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+footer a{color:var(--muted);text-decoration:none}
+footer a:hover{color:var(--chalk)}
+
+@media (prefers-reduced-motion: reduce){
+  .caret{animation:none}
+  .ticker-track{animation:none}
+  .artifact{transition:none}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap bar">
+    <a class="wordmark" href="/">techdays<span class="tld">.ai</span><span class="caret" aria-hidden="true"></span></a>
+    <nav aria-label="Main">
+      <a class="navlink" href="#executable">How it works</a>
+      <a class="navlink" href="#arc">Curriculum</a>
+      <a class="navlink" href="#outcomes">Outcomes</a>
+      <a class="btn" href="mailto:hello@techdays.ai?subject=Working%20session">Book a working session</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">AI fluency for enterprises</p>
+      <h1>Your team's AI training is <span class="strike">a slide deck</span>. <em>Make it a lived skill.</em></h1>
+      <p class="lede">techdays.ai builds immersive learning environments where <strong>every idea on screen is executable</strong> — runnable playbooks, live code, an always-on tutor, and prompt templates your people customize and fire in place.</p>
+      <div class="hero-ctas">
+        <a class="btn solid" href="mailto:hello@techdays.ai?subject=Working%20session">Book a working session</a>
+        <a class="btn" href="#arc">See the curriculum</a>
+      </div>
+    </div>
+
+    <div class="playbook" id="playbook" aria-label="Runnable playbook demo">
+      <div class="pb-head">
+        <span>playbook / rollout-comms</span>
+        <span class="pb-status"><span class="dot" aria-hidden="true"></span>live</span>
+      </div>
+      <div class="pb-body">
+        <div class="pb-comment"># This prompt is real. The dashed parts are yours —</div>
+        <div class="pb-comment"># click one to change it, then run it.</div>
+        <br>
+        You are an ops lead at <button class="chip" type="button" data-var="company">your company</button>.
+        Draft a 30-day plan to bring the
+        <button class="chip" type="button" data-var="team">claims team</button>
+        from
+        <button class="chip" type="button" data-var="level">first prompts</button>
+        to working AI fluency. Anchor every week to a task they
+        already do, and end with something they shipped.
+      </div>
+      <div class="pb-run">
+        <button class="run-btn" id="run" type="button">▸ Run prompt</button>
+        <span class="run-hint" id="hint">runs in place — like everything we teach</span>
+      </div>
+      <div class="pb-out" id="out" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track" id="tick">
+    <span><b>·</b>prompt fundamentals</span><span><b>·</b>context &amp; constraints</span><span><b>·</b>agents &amp; skills</span><span><b>·</b>MCP in production</span><span><b>·</b>evals that matter</span><span><b>·</b>A2A workflows</span><span><b>·</b>prompt libraries</span><span><b>·</b>guardrails &amp; governance</span><span><b>·</b>agentic coding</span><span><b>·</b>from pilot to platform</span>
+  </div>
+</div>
+
+<section id="executable">
+  <div class="wrap">
+    <p class="sec-label">How it works</p>
+    <h2>Not another video library. A room where the ideas run.</h2>
+    <p class="sec-intro">Every lesson is built from three working materials. Nothing on the page is an illustration of the thing — it is the thing.</p>
+    <div class="artifacts">
+      <article class="artifact">
+        <h3>Runnable playbooks</h3>
+        <p>Step-by-step workflows for real tasks — drafting, analysis, agent orchestration — where every step executes right in the lesson.</p>
+        <div class="specimen"><span class="k">step 3/7</span>  triage the inbox<br><span class="g">▸ ran in lesson</span> — 42 messages sorted<br><span class="k">step 4/7</span>  draft the escalation</div>
+      </article>
+      <article class="artifact">
+        <h3>An always-on tutor</h3>
+        <p>Not a chat box in the corner. A tutor woven into every micro-interaction — it sees where you're stuck and meets you there.</p>
+        <div class="specimen"><span class="v">tutor</span> — your prompt lost the constraint<br>from step 2. Want to see the diff, or<br>try once more on your own?</div>
+      </article>
+      <article class="artifact">
+        <h3>Templates you fire in place</h3>
+        <p>A prompt library scoped to your business. Learners fill in the variables, run it against live models, and keep what works.</p>
+        <div class="specimen">brief = template(<span class="k">"weekly-rollup"</span>)<br>brief.team = <span class="v">"underwriting"</span><br><span class="g">▸ fired</span> — saved to your library</div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="arc" id="arc">
+  <div class="wrap">
+    <p class="sec-label">The curriculum</p>
+    <h2>One arc, four stages: first prompt to production agent.</h2>
+    <p class="sec-intro">The numbers are the path. Every learner enters where they are and leaves one stage further, with work they can show.</p>
+    <div class="arc-rows">
+      <div class="arc-row">
+        <span class="arc-n">stage 01</span>
+        <div><h3>First prompt</h3><span class="arc-who">for every professional</span></div>
+        <p class="arc-can"><b>Walks out able to</b>Frame any task as a prompt with context, constraints, and a checkable result.</p>
+      </div>
+      <div class="arc-row">
+        <span class="arc-n">stage 02</span>
+        <div><h3>Working fluency</h3><span class="arc-who">for teams and their leads</span></div>
+        <p class="arc-can"><b>Walks out able to</b>Run daily work through playbooks and a shared prompt library — and improve both.</p>
+      </div>
+      <div class="arc-row">
+        <span class="arc-n">stage 03</span>
+        <div><h3>Agents &amp; skills</h3><span class="arc-who">for builders and power users</span></div>
+        <p class="arc-can"><b>Walks out able to</b>Compose agents, skills, and tools into workflows that survive contact with real data.</p>
+      </div>
+      <div class="arc-row">
+        <span class="arc-n">stage 04</span>
+        <div><h3>Production agents</h3><span class="arc-who">for engineering teams</span></div>
+        <p class="arc-can"><b>Walks out able to</b>Operationalize agentic systems — A2A, MCP, evals, guardrails — at enterprise scale.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="measure" id="outcomes">
+  <div class="wrap measure-grid">
+    <div>
+      <p class="sec-label">Outcomes</p>
+      <h2>We measure what people can do afterward.</h2>
+      <p class="sec-intro">Completion rates flatter the course. Capability is the only metric that matters, so every stage ends in demonstrated, hands-on-keyboard proof.</p>
+    </div>
+    <ul class="proof">
+      <li><span class="tick mono">✓</span><span>Every learner finishes with <em>shipped artifacts</em>, not certificates — prompts, playbooks, and agents in use on their team.</span></li>
+      <li><span class="tick mono">✓</span><span>Team prompt libraries that <em>outlive the workshop</em>, versioned and shared across the org.</span></li>
+      <li><span class="tick mono">✓</span><span>Capability assessments before and after — <em>measured on real tasks</em> from your business, not quizzes.</span></li>
+      <li><span class="tick mono">✓</span><span>A skills hub your teams keep building on, from <em>first prompt to production agent</em>.</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="wrap">
+    <h2>Bring your team. Leave with running agents.</h2>
+    <p>A working session is exactly that — your people, your tasks, live models. We'll show you what a techday feels like from the inside.</p>
+    <div class="hero-ctas">
+      <a class="btn solid" href="mailto:hello@techdays.ai?subject=Working%20session">Book a working session</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span>techdays<span style="color:var(--amber)">.ai</span> — AI fluency, lived.</span>
+    <span>
+      <a href="https://github.com/techdays-ai">github</a>
+      &nbsp;·&nbsp;
+      <a href="https://techdays.dev">techdays.dev</a>
+      &nbsp;·&nbsp;
+      <a href="mailto:hello@techdays.ai">hello@techdays.ai</a>
+    </span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var vars={
+    company:["your company","Patterson","Acme Mutual","Northwind Health"],
+    team:["claims team","underwriting group","field engineers","support org"],
+    level:["first prompts","occasional use","scattered pilots"]
+  };
+  var idx={company:0,team:0,level:0};
+  document.querySelectorAll(".chip").forEach(function(chip){
+    chip.addEventListener("click",function(){
+      var k=chip.dataset.var;
+      idx[k]=(idx[k]+1)%vars[k].length;
+      chip.textContent=vars[k][idx[k]];
+    });
+  });
+
+  var out=document.getElementById("out");
+  var btn=document.getElementById("run");
+  var hint=document.getElementById("hint");
+  var reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function script(){
+    var company=vars.company[idx.company];
+    var team=vars.team[idx.team];
+    return [
+      ["sys","▸ reading context — "+company+", "+team+" … "],
+      ["ok","done\n"],
+      ["sys","▸ drafting 30-day arc …\n\n"],
+      ["hl","week 1 — baseline. "],
+      ["","Intake assessment on live tasks; every learner ships one working prompt against real "+team.split(" ")[0]+" work.\n"],
+      ["hl","week 2 — playbooks. "],
+      ["","Daily tasks rebuilt as runnable playbooks; the team's shared prompt library goes live.\n"],
+      ["hl","week 3 — agents. "],
+      ["","One recurring workflow handed to an agent, with a human checkpoint the team designs.\n"],
+      ["hl","week 4 — proof. "],
+      ["","Capability re-assessment on the same tasks. Demo day: what the team shipped, shown to leadership.\n\n"],
+      ["ok","✓ plan drafted — this is the demo. Imagine your material here."]
+    ];
+  }
+
+  function typeOut(parts,done){
+    out.innerHTML="";
+    out.classList.add("live");
+    var p=0;
+    function nextPart(){
+      if(p>=parts.length){done();return}
+      var span=document.createElement("span");
+      var cls=parts[p][0], text=parts[p][1];
+      if(cls)span.className=cls;
+      out.appendChild(span);
+      if(reduced){span.textContent=text;p++;nextPart();return}
+      var i=0;
+      (function tick(){
+        span.textContent=text.slice(0,++i);
+        if(i<text.length){setTimeout(tick,text.length>80?6:14)}
+        else{p++;setTimeout(nextPart,120)}
+      })();
+    }
+    nextPart();
+  }
+
+  btn.addEventListener("click",function(){
+    btn.disabled=true;
+    hint.textContent="running against the model …";
+    typeOut(script(),function(){
+      btn.disabled=false;
+      btn.textContent="▸ Run again";
+      hint.textContent="change a dashed variable and re-run";
+    });
+  });
+
+  var track=document.getElementById("tick");
+  track.innerHTML+=track.innerHTML;
+})();
+</script>
+</body>
+</html>
